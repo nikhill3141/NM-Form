@@ -140,19 +140,27 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       <div className="forest-scene absolute inset-0 opacity-80" />
       <div className="absolute inset-0 bg-black/34" />
       <GlassPanel className="relative w-full max-w-md p-6">
-        <Link className="mb-8 flex items-center gap-3" href="/">
-          <span className="flex size-10 items-center justify-center rounded-lg bg-emerald-300 text-emerald-950">
-            <Leaf className="size-5" />
-          </span>
-          <span className="font-semibold">NM Forms</span>
+        <Link className="flex items-center " href="/">
+          <img
+            className="size-20"
+            src="\forest_form_logo_darkmode-removebg-preview.png"
+            alt="forest_form_logo"
+          />
+          <div>
+            <h1 className="text-3xl font-semibold">
+              {isSignup ? "Create your workspace" : "Welcome back"}
+            </h1>
+            <p className="text-sm leading-6 text-emerald-50/66">
+              {isSignup
+                ? "Start designing immersive forms with cinematic themes."
+                : "Open your dashboard and continue building."}
+            </p>
+          </div>
         </Link>
-        <h1 className="text-3xl font-semibold">{isSignup ? "Create your workspace" : "Welcome back"}</h1>
-        <p className="mt-3 text-sm leading-6 text-emerald-50/66">
-          {isSignup ? "Start designing immersive forms with cinematic themes." : "Open your dashboard and continue building."}
-        </p>
+
         {resetMode ? (
           <form
-            className="mt-8 space-y-4"
+            className="mt-5 space-y-4"
             onSubmit={(event) => {
               event.preventDefault();
               if (!resetToken) {
@@ -164,75 +172,131 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           >
             <div>
               <label className="mb-2 block text-sm font-medium text-emerald-50">Email</label>
-              <input className="nm-input" onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required type="email" value={email} />
+              <input
+                className="nm-input"
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="you@example.com"
+                required
+                type="email"
+                value={email}
+              />
             </div>
             {resetToken && (
               <>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-emerald-50">Reset token</label>
-                  <input className="nm-input" onChange={(event) => setResetToken(event.target.value)} required value={resetToken} />
+                  <label className="mb-2 block text-sm font-medium text-emerald-50">
+                    Reset token
+                  </label>
+                  <input
+                    className="nm-input"
+                    onChange={(event) => setResetToken(event.target.value)}
+                    required
+                    value={resetToken}
+                  />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-emerald-50">New password</label>
-                  <input className="nm-input" onChange={(event) => setNewPassword(event.target.value)} placeholder="Enter a stronger password" required type="password" value={newPassword} />
+                  <label className="mb-2 block text-sm font-medium text-emerald-50">
+                    New password
+                  </label>
+                  <input
+                    className="nm-input"
+                    onChange={(event) => setNewPassword(event.target.value)}
+                    placeholder="Enter a stronger password"
+                    required
+                    type="password"
+                    value={newPassword}
+                  />
                 </div>
               </>
             )}
-            <Button className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200" disabled={isPending} type="submit">
+            <Button
+              className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200"
+              disabled={isPending}
+              type="submit"
+            >
               {isPending && <Loader2 className="size-4 animate-spin" />}
               {resetToken ? "Update password" : "Generate reset link"}
               <ArrowRight className="size-4" />
             </Button>
-            <Button className="w-full border-white/12 bg-white/[0.07] text-emerald-50 hover:bg-white/[0.11]" onClick={() => setResetMode(false)} type="button" variant="outline">
+            <Button
+              className="w-full border-white/12 bg-white/[0.07] text-emerald-50 hover:bg-white/[0.11]"
+              onClick={() => setResetMode(false)}
+              type="button"
+              variant="outline"
+            >
               Back to sign in
             </Button>
           </form>
         ) : (
-        <form
-          className="mt-8 space-y-4"
-          onSubmit={(event) => {
-            event.preventDefault();
-            if (isSignup) {
-              signup.mutate({ fullName, email, password });
-              return;
-            }
-            signin.mutate({ email, password });
-          }}
-        >
-          {isSignup && (
+          <form
+            className="mt-8 space-y-4"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (isSignup) {
+                signup.mutate({ fullName, email, password });
+                return;
+              }
+              signin.mutate({ email, password });
+            }}
+          >
+            {isSignup && (
+              <div>
+                <label className="mb-2 block text-sm font-medium text-emerald-50">Full name</label>
+                <input
+                  className="nm-input"
+                  onChange={(event) => setFullName(event.target.value)}
+                  placeholder="Nikhil Mehta"
+                  required
+                  value={fullName}
+                />
+              </div>
+            )}
             <div>
-              <label className="mb-2 block text-sm font-medium text-emerald-50">Full name</label>
-              <input className="nm-input" onChange={(event) => setFullName(event.target.value)} placeholder="Nikhil Mehta" required value={fullName} />
+              <label className="mb-2 block text-sm font-medium text-emerald-50">Email</label>
+              <input
+                className="nm-input"
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="you@example.com"
+                required
+                type="email"
+                value={email}
+              />
             </div>
-          )}
-          <div>
-            <label className="mb-2 block text-sm font-medium text-emerald-50">Email</label>
-            <input className="nm-input" onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required type="email" value={email} />
-          </div>
-          <div>
-            <label className="mb-2 block text-sm font-medium text-emerald-50">Password</label>
-            <input className="nm-input" onChange={(event) => setPassword(event.target.value)} placeholder="Enter your password" required type="password" value={password} />
-          </div>
-          <Button className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200" disabled={isPending} type="submit">
-            {isPending && <Loader2 className="size-4 animate-spin" />}
-            {isSignup ? "Create account" : "Sign in"}
-            <ArrowRight className="size-4" />
-          </Button>
-          {verificationToken && (
+            <div>
+              <label className="mb-2 block text-sm font-medium text-emerald-50">Password</label>
+              <input
+                className="nm-input"
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Enter your password"
+                required
+                type="password"
+                value={password}
+              />
+            </div>
             <Button
-              className="w-full border-emerald-300/30 bg-emerald-300/12 text-emerald-50 hover:bg-emerald-300/18"
+              className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200"
               disabled={isPending}
-              onClick={() => {
-                verifyEmail.mutate({ token: verificationToken });
-              }}
-              type="button"
-              variant="outline"
+              type="submit"
             >
-              {verifyEmail.isPending && <Loader2 className="size-4 animate-spin" />}
-              Verify email and continue
+              {isPending && <Loader2 className="size-4 animate-spin" />}
+              {isSignup ? "Create account" : "Sign in"}
+              <ArrowRight className="size-4" />
             </Button>
-          )}
-        </form>
+            {verificationToken && (
+              <Button
+                className="w-full border-emerald-300/30 bg-emerald-300/12 text-emerald-50 hover:bg-emerald-300/18"
+                disabled={isPending}
+                onClick={() => {
+                  verifyEmail.mutate({ token: verificationToken });
+                }}
+                type="button"
+                variant="outline"
+              >
+                {verifyEmail.isPending && <Loader2 className="size-4 animate-spin" />}
+                Verify email and continue
+              </Button>
+            )}
+          </form>
         )}
         {!isSignup && (
           <>
@@ -246,7 +310,11 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
                 type="button"
                 variant="outline"
               >
-                {guestLogin.isPending ? <Loader2 className="size-4 animate-spin" /> : <Presentation className="size-4" />}
+                {guestLogin.isPending ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Presentation className="size-4" />
+                )}
                 Continue as guest
               </Button>
             )}
