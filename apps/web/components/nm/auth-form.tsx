@@ -139,8 +139,8 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#06120d] px-6 py-24 text-white">
       <div className="forest-scene absolute inset-0 opacity-80" />
       <div className="absolute inset-0 bg-black/34" />
-      <GlassPanel className="relative w-full max-w-md p-6">
-        <Link className="flex items-center " href="/">
+      <GlassPanel className="relative w-full max-w-md p-4">
+        <Link className="flex items-center justify-items-start" href="/">
           <img
             className="size-20"
             src="\forest_form_logo_darkmode-removebg-preview.png"

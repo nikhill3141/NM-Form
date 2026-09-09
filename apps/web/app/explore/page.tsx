@@ -72,8 +72,7 @@ function ExploreContent() {
   }, [publicFormsPage, totalPublicFormPages]);
 
   return (
-    <PageShell
-      >
+    <PageShell>
       <section className="pt-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
