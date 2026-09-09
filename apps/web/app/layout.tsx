@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "./globals.css"
 import { GlobalProviders } from "~/providers/global";
 
 const geistSans = localFont({
@@ -13,12 +13,28 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "forms that grow,try you nm form",
+  title: "Forms that grow, try your NM Form",
   description: "Immersive form experience platform for cinematic, shareable forms.",
+
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
+    icon: [
+      {
+        url: "/forest form logo darkmode.png",
+        type: "image/png",
+      },
+    ],
+    shortcut: [
+      {
+        url: "/forest form logo darkmode.png",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/forest form logo darkmode.png",
+        type: "image/png",
+      },
+    ],
   },
 };
 

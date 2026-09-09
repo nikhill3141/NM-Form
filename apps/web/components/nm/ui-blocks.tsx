@@ -516,7 +516,7 @@ export function VideoFallbackHero() {
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,8,6,0.92),rgba(7,20,13,0.55)_52%,rgba(3,8,6,0.85)),linear-gradient(180deg,rgba(3,8,6,0.12),#06120d_92%)]" />
       <div className="light-sweep absolute inset-0" />
       <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#06120d] to-transparent" />
-      <Play className="absolute bottom-10 right-10 size-12 text-emerald-100/12" />
+      <Play className="absolute bottom-0 right-0 text-emerald-100/12" />
     </div>
   );
 }

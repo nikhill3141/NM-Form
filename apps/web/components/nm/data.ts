@@ -23,8 +23,6 @@ import {
 
 export const navItems = [
   { label: "Pricing", href: "/pricing" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Builder", href: "/builder" },
   { label: "Explore", href: "/explore" },
   { label: "Themes", href: "/themes" },
 ];

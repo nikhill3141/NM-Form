@@ -45,19 +45,16 @@ export default function Home() {
     <main className="nm-app min-h-screen overflow-hidden">
       <SiteNav showThemeNotice />
 
-      <section className="relative min-h-[94vh] overflow-hidden px-6 pb-20 pt-44 md:pt-48">
+    {/* hero */}
+      <section className="relative min-h-screen overflow-hidden px-6 pb-20 pt-44 md:pt-48">
         <VideoFallbackHero />
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
           <div>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-sm text-emerald-100 backdrop-blur-xl">
-              <Sparkles className="size-4" />
-              Immersive form experience platform
-            </div>
             <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] text-white md:text-7xl">
-              Forms that feel natural.
+             Bulid, Analyze Custom Forms With Engaging Themes
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-emerald-50/74">
-              Create immersive, beautiful, shareable forms with cinematic themes and modern interactions.
+              Create immersive, beautiful, shareable forms with cinematic engaging themes and modern interactions. And also smooth response analysis
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Button asChild className="magnetic-button h-12 bg-emerald-300 px-6 text-base text-emerald-950 hover:bg-emerald-200">
@@ -75,7 +72,7 @@ export default function Home() {
             </div>
           </div>
           <div className="relative flex justify-center lg:justify-end">
-            <FormPreviewCard />
+            {/* <FormPreviewCard /> */}
           </div>
         </div>
       </section>

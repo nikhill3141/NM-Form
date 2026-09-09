@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowRight, Leaf, Menu, Sparkles } from "lucide-react";
+import { ArrowRight, Leaf, Menu, PackageIcon, Sparkles, ThermometerSnowflake } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Sheet,
@@ -17,80 +17,89 @@ export function SiteNav({ showThemeNotice = false }: { showThemeNotice?: boolean
     <>
       {showThemeNotice && (
         <div className="fixed left-0 right-0 top-0 z-[60] flex h-9 items-center justify-center border-b border-emerald-300/20 bg-emerald-950/92 px-4 text-center text-xs font-medium text-emerald-50 shadow-[0_10px_34px_rgba(6,78,59,0.22)] backdrop-blur-xl sm:text-sm">
-          <Sparkles className="mr-2 size-3.5 shrink-0 text-emerald-200" />
+          <PackageIcon className="mr-2 size-3.5 shrink-0 text-emerald-200" />
           <span className="truncate">New themes are coming soon.</span>
         </div>
       )}
-      <header className={showThemeNotice ? "fixed left-0 right-0 top-12 z-50 px-4" : "fixed left-0 right-0 top-4 z-50 px-4"}>
-      <div className="nm-panel mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <Link className="group flex items-center gap-3" href="/">
-          <span className="flex size-10 items-center justify-center rounded-lg border border-emerald-300/25 bg-emerald-300/12 shadow-[0_0_28px_rgba(74,222,128,0.22)]">
-            <Leaf className="size-5 text-emerald-200 transition-transform group-hover:rotate-12" />
-          </span>
-          <span className="font-semibold">NM Forms</span>
-        </Link>
+      <header
+        className={
+          showThemeNotice
+            ? "fixed left-0 right-0 top-12 z-50 px-4"
+            : "fixed left-0 right-0 top-4 z-50 px-4"
+        }
+      >
+        <div className="nm-panel mx-auto flex p-2 h-14 max-w-7xl items-center justify-between ">
+          <Link className="" href="/">
+            
+              {/* <img src={""} /> */}
+              <img src={"/Forest From Text Logo LightMode.png"} alt="Forest Form" className="h-38 w-auto mt-1 dark:hidden" />
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item) => (
-            <Link
-              className="rounded-lg px-4 py-2 text-sm text-emerald-900/72 transition hover:bg-emerald-100/70 hover:text-emerald-950 dark:text-emerald-50/78 dark:hover:bg-white/10 dark:hover:text-white"
-              href={item.href}
-              key={item.href}
+              <img src={"/Forest_form_text_dark_mode-removebg-preview.png"} alt="Forest Form" className="hidden h-35 mt-2 w-auto dark:block" />
+           
+          </Link>
+
+          <nav className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) => (
+              <Link
+                className="rounded-lg px-4 py-2 text-sm text-emerald-900/72 transition hover:bg-emerald-100/70 hover:text-emerald-950 dark:text-emerald-50/78 dark:hover:bg-white/10 dark:hover:text-white"
+                href={item.href}
+                key={item.href}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button asChild className="nm-button-glass h-9 px-4 text-base" variant="outline">
+              <Link href="/signup">SignUp</Link>
+            </Button>
+            <Button
+              asChild
+              className="hidden bg-emerald-300 text-emerald-950 hover:bg-emerald-200 md:inline-flex"
             >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Button asChild className="nm-button-glass h-9 px-4 text-base" variant="outline">
-                <Link href="/signup">
-                  SignUp
-                </Link>
-          </Button>
-          <Button asChild className="hidden bg-emerald-300 text-emerald-950 hover:bg-emerald-200 md:inline-flex">
-            <Link href="/builder">
-              Start Building
-              <ArrowRight className="size-4" />
-            </Link>
-          </Button>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button className="nm-button-glass lg:hidden" size="icon" variant="outline">
-                <Menu className="size-4" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent className="border-emerald-900/10 bg-emerald-50 text-emerald-950 dark:border-white/10 dark:bg-[#06120d] dark:text-emerald-50">
-              <SheetHeader>
-                <SheetTitle className="flex items-center gap-3 text-emerald-950 dark:text-white">
-                  <span className="flex size-9 items-center justify-center rounded-lg bg-emerald-300 text-emerald-950">
-                    <Leaf className="size-4" />
-                  </span>
-                  NM Forms
-                </SheetTitle>
-              </SheetHeader>
-              <nav className="mt-8 grid gap-2">
-                {navItems.map((item) => (
+              <Link href="/builder">
+                Start Building
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button className="nm-button-glass lg:hidden" size="icon" variant="outline">
+                  <Menu className="size-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="border-emerald-900/10 bg-emerald-50 text-emerald-950 dark:border-white/10 dark:bg-[#06120d] dark:text-emerald-50">
+                <SheetHeader>
+                  <SheetTitle className="flex items-center gap-3 text-emerald-950 dark:text-white">
+                    <span className="flex size-9 items-center justify-center rounded-lg bg-emerald-300 text-emerald-950">
+                      <Leaf className="size-4" />
+                    </span>
+                    NM Forms
+                  </SheetTitle>
+                </SheetHeader>
+                <nav className="mt-8 grid gap-2">
+                  {navItems.map((item) => (
+                    <Link
+                      className="rounded-lg border border-emerald-900/10 bg-white/70 px-4 py-3 text-sm font-medium text-emerald-950 dark:border-white/10 dark:bg-white/[0.06] dark:text-emerald-50"
+                      href={item.href}
+                      key={item.href}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                   <Link
-                    className="rounded-lg border border-emerald-900/10 bg-white/70 px-4 py-3 text-sm font-medium text-emerald-950 dark:border-white/10 dark:bg-white/[0.06] dark:text-emerald-50"
-                    href={item.href}
-                    key={item.href}
+                    className="rounded-lg bg-emerald-300 px-4 py-3 text-sm font-semibold text-emerald-950"
+                    href="/builder"
                   >
-                    {item.label}
+                    Start Building
                   </Link>
-                ))}
-                <Link
-                  className="rounded-lg bg-emerald-300 px-4 py-3 text-sm font-semibold text-emerald-950"
-                  href="/builder"
-                >
-                  Start Building
-                </Link>
-              </nav>
-            </SheetContent>
-          </Sheet>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      </div>
       </header>
     </>
   );
