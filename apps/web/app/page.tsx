@@ -49,10 +49,10 @@ export default function Home() {
       {/* hero */}
       <section className="relative min-h-screen overflow-hidden px-6 pb-20 pt-44 md:pt-48">
         <VideoFallbackHero /> 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.30fr]">
           <div>
             <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] text-black dark:text-white md:text-7xl">
-              Bulid, Analyze Custom Forms With Engaging Themes
+              Bulid, Analyze... <br/> Custom Forms With Engaging Themes
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-black dark:text-emerald-50/74">
               Create immersive, beautiful, shareable forms with cinematic engaging themes and modern
@@ -76,51 +76,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          <div className="relative flex justify-center lg:justify-end">
             <FormPreviewCard/>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative px-6 py-12">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-4 rounded-xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl md:grid-cols-5">
-            {trustedTeams.map((team) => (
-              <div
-                className="trusted-logo rounded-lg border border-white/8 bg-white/[0.04] px-4 py-5 text-center text-sm font-semibold uppercase tracking-[0.18em] text-emerald-50/58"
-                key={team}
-              >
-                {team}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            centered
-            description="NM Forms wraps form creation, sharing, themes, and analytics in one premium product surface."
-            eyebrow="Experience"
-            title="Interactive forms that behave like beautiful product flows."
-          />
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {experienceFeatures.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <GlassPanel className="feature-card p-5" key={feature.title}>
-                  <Icon className="mb-7 size-8 text-emerald-200" />
-                  <h3 className="text-xl font-semibold text-emerald-950 dark:text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-emerald-900/65 dark:text-emerald-50/65">
-                    {feature.text}
-                  </p>
-                </GlassPanel>
-              );
-            })}
-          </div>
         </div>
       </section>
 
@@ -129,7 +85,7 @@ export default function Home() {
           <SectionHeading
             description="Switch the whole emotional register of a form while keeping labels, inputs, and focus states readable."
             eyebrow="Themes"
-            title="A marketplace for immersive form worlds."
+            title="Explore Moden Themes"
           />
           <ThemeStrip />
         </div>

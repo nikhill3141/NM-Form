@@ -139,25 +139,24 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#06120d] px-6 py-24 text-white">
       <div className="forest-scene absolute inset-0 opacity-80" />
       <div className="absolute inset-0 bg-black/34" />
-      <GlassPanel className="relative w-full max-w-md p-4">
-        <Link className="flex items-center justify-items-start" href="/">
+      <GlassPanel className="relative w-full max-w-md p-5">
+        <Link className="flex items-center justify-center" href="/">
           <img
-            className="size-20"
+            className="h-20 w-20"
             src="\forest_form_logo_darkmode-removebg-preview.png"
             alt="forest_form_logo"
           />
-          <div>
-            <h1 className="text-3xl font-semibold">
-              {isSignup ? "Create your workspace" : "Welcome back"}
-            </h1>
-            <p className="text-sm leading-6 text-emerald-50/66">
-              {isSignup
-                ? "Start designing immersive forms with cinematic themes."
-                : "Open your dashboard and continue building."}
-            </p>
-          </div>
         </Link>
-
+        <div className="flex flex-col items-center">
+          <h1 className="text-3xl font-semibold">
+            {isSignup ? "Create your workspace" : "Welcome back"}
+          </h1>
+          <p className="text-sm leading-6 text-emerald-50/66">
+            {isSignup
+              ? "Start designing immersive forms with cinematic themes."
+              : "Open your dashboard and continue building."}
+          </p>
+        </div>
         {resetMode ? (
           <form
             className="mt-5 space-y-4"
