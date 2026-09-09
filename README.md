@@ -1,6 +1,6 @@
 # NM Forms
 
-NM Forms is a full-stack form builder for creating cinematic, shareable forms with public or unlisted visibility, dashboard analytics, response exports, guest demo access, password protection, and QR-code sharing.
+NM Forms is a full-stack form builder for creating cinematic custom, shareable forms with public or unlisted visibility, dashboard analytics, response exports, guest demo access, password protection, and QR-code sharing.
 
 ## Tech Stack
 
