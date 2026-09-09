@@ -6,19 +6,9 @@ import { pricingPlans } from "~/components/nm/data";
 
 export default function PricingPage() {
   return (
-    <PageShell
-      description="Plans for creators, teams, and organizations that want forms to feel premium from first question to final thank you."
-      eyebrow="Pricing"
-      title="A pricing model that scales with your form experience."
-    >
-      <section className="px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            centered
-            description="Every tier keeps the visual system readable, fast, and responsive."
-            eyebrow="Plans"
-            title="Choose your canopy."
-          />
+    <PageShell>
+      <section className="py-20">
+        <div className="mx-auto max-w-5xl">
           <div className="grid gap-4 lg:grid-cols-3">
             {pricingPlans.map((plan) => (
               <GlassPanel className={plan.highlighted ? "p-6 ring-2 ring-emerald-300/45" : "p-6"} key={plan.name}>

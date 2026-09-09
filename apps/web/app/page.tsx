@@ -14,13 +14,14 @@ import {
   AnalyticsMockup,
   BuilderMockup,
   DashboardPreview,
-  FormPreviewCard,
+
   GlassPanel,
   SectionHeading,
   ThemeStrip,
   VideoFallbackHero,
 } from "~/components/nm/ui-blocks";
 import { experienceFeatures, pricingPlans, trustedTeams } from "~/components/nm/data";
+import FormPreviewCard from "~/components/nm/HeroThemeComponent";
 
 export default function Home() {
   const testimonials = [
@@ -42,22 +43,26 @@ export default function Home() {
   ];
 
   return (
-    <main className="nm-app min-h-screen overflow-hidden">
+    <main className="nm-app min-h-screen overflow-hidden scroll-none">
       <SiteNav showThemeNotice />
 
-    {/* hero */}
+      {/* hero */}
       <section className="relative min-h-screen overflow-hidden px-6 pb-20 pt-44 md:pt-48">
-        <VideoFallbackHero />
+        <VideoFallbackHero /> 
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
           <div>
-            <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] text-white md:text-7xl">
-             Bulid, Analyze Custom Forms With Engaging Themes
+            <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] text-black dark:text-white md:text-7xl">
+              Bulid, Analyze Custom Forms With Engaging Themes
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-emerald-50/74">
-              Create immersive, beautiful, shareable forms with cinematic engaging themes and modern interactions. And also smooth response analysis
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-black dark:text-emerald-50/74">
+              Create immersive, beautiful, shareable forms with cinematic engaging themes and modern
+              interactions. And also smooth response analysis
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Button asChild className="magnetic-button h-12 bg-emerald-300 px-6 text-base text-emerald-950 hover:bg-emerald-200">
+              <Button
+                asChild
+                className="magnetic-button h-12 bg-emerald-300 px-6 text-base text-emerald-950 hover:bg-emerald-200"
+              >
                 <Link href="/builder">
                   Start Building
                   <ArrowRight className="size-4" />
@@ -72,7 +77,7 @@ export default function Home() {
             </div>
           </div>
           <div className="relative flex justify-center lg:justify-end">
-            {/* <FormPreviewCard /> */}
+            <FormPreviewCard/>
           </div>
         </div>
       </section>
@@ -81,7 +86,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-4 rounded-xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl md:grid-cols-5">
             {trustedTeams.map((team) => (
-              <div className="trusted-logo rounded-lg border border-white/8 bg-white/[0.04] px-4 py-5 text-center text-sm font-semibold uppercase tracking-[0.18em] text-emerald-50/58" key={team}>
+              <div
+                className="trusted-logo rounded-lg border border-white/8 bg-white/[0.04] px-4 py-5 text-center text-sm font-semibold uppercase tracking-[0.18em] text-emerald-50/58"
+                key={team}
+              >
                 {team}
               </div>
             ))}
@@ -103,8 +111,12 @@ export default function Home() {
               return (
                 <GlassPanel className="feature-card p-5" key={feature.title}>
                   <Icon className="mb-7 size-8 text-emerald-200" />
-                  <h3 className="text-xl font-semibold text-emerald-950 dark:text-white">{feature.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-emerald-900/65 dark:text-emerald-50/65">{feature.text}</p>
+                  <h3 className="text-xl font-semibold text-emerald-950 dark:text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-emerald-900/65 dark:text-emerald-50/65">
+                    {feature.text}
+                  </p>
                 </GlassPanel>
               );
             })}
@@ -128,7 +140,8 @@ export default function Home() {
           <SectionHeading
             description="The same builder your team uses: add question blocks, drag fields into the right order, set expiry and visibility, then publish without leaving the canvas."
             eyebrow="Builder"
-            title="Build, reorder, and publish from one focused canvas."/>
+            title="Build, reorder, and publish from one focused canvas."
+          />
           <BuilderMockup />
         </div>
       </section>
@@ -150,21 +163,33 @@ export default function Home() {
           />
           <div className="grid gap-4 lg:grid-cols-3">
             {pricingPlans.map((plan) => (
-              <GlassPanel className={plan.highlighted ? "p-6 ring-2 ring-emerald-300/45" : "p-6"} key={plan.name}>
+              <GlassPanel
+                className={plan.highlighted ? "p-6 ring-2 ring-emerald-300/45" : "p-6"}
+                key={plan.name}
+              >
                 <div className="mb-7 flex items-start justify-between">
                   <div>
                     <h3 className="text-2xl font-semibold">{plan.name}</h3>
-                    <p className="mt-2 text-sm leading-6 text-emerald-900/62 dark:text-emerald-50/62">{plan.description}</p>
+                    <p className="mt-2 text-sm leading-6 text-emerald-900/62 dark:text-emerald-50/62">
+                      {plan.description}
+                    </p>
                   </div>
                   {plan.highlighted && <BadgeCheck className="size-6 text-emerald-200" />}
                 </div>
                 <p className="mb-6 text-4xl font-semibold">
                   {plan.price}
-                  {plan.price.startsWith("$") && <span className="text-base font-normal text-emerald-900/55 dark:text-emerald-50/55">/mo</span>}
+                  {plan.price.startsWith("$") && (
+                    <span className="text-base font-normal text-emerald-900/55 dark:text-emerald-50/55">
+                      /mo
+                    </span>
+                  )}
                 </p>
                 <div className="space-y-3">
                   {plan.features.map((feature) => (
-                    <div className="flex items-center gap-3 text-sm text-emerald-900/75 dark:text-emerald-50/75" key={feature}>
+                    <div
+                      className="flex items-center gap-3 text-sm text-emerald-900/75 dark:text-emerald-50/75"
+                      key={feature}
+                    >
                       <Leaf className="size-4 text-emerald-200" />
                       {feature}
                     </div>
@@ -182,7 +207,9 @@ export default function Home() {
             <GlassPanel className="floating-card p-6" key={name}>
               <Icon className="mb-8 size-7 text-emerald-200" />
               <p className="text-lg leading-8 text-emerald-950 dark:text-white">{quote}</p>
-              <p className="mt-6 text-sm font-semibold text-emerald-700 dark:text-emerald-100">{name}</p>
+              <p className="mt-6 text-sm font-semibold text-emerald-700 dark:text-emerald-100">
+                {name}
+              </p>
             </GlassPanel>
           ))}
         </div>

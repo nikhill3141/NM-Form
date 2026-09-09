@@ -52,50 +52,50 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("mb-10", centered && "mx-auto max-w-3xl text-center")}>
-      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-emerald-700/75 dark:text-emerald-200/75">{eyebrow}</p>
+      <p className=" text-sm font-semibold uppercase tracking-[0.24em] text-emerald-700/75 dark:text-emerald-200/75">{eyebrow}</p>
       <h2 className="text-3xl font-semibold leading-tight text-emerald-950 md:text-5xl dark:text-white">{title}</h2>
       <p className="mt-4 text-base leading-7 text-emerald-900/68 dark:text-emerald-50/68">{description}</p>
     </div>
   );
 }
 
-export function FormPreviewCard() {
-  return (
-    <GlassPanel className="floating-card w-full max-w-md p-5">
-      <div className="mb-5 flex items-center justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-200/70">Live Preview</p>
-          <h3 className="mt-1 text-xl font-semibold text-white">Forest launch survey</h3>
-        </div>
-        <span className="rounded-full border border-emerald-300/25 bg-emerald-300/12 px-3 py-1 text-xs text-emerald-100">
-          72%
-        </span>
-      </div>
-      <div className="space-y-4">
-        <label className="block text-sm font-medium text-emerald-50">What should feel easier in your workflow?</label>
-        <textarea
-          className="min-h-28 w-full resize-none rounded-lg border border-white/14 bg-black/28 px-4 py-3 text-base text-white outline-none transition placeholder:text-emerald-50/42 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-300/18"
-          placeholder="Share the moment that slows your team down..."
-        />
-        <div className="grid grid-cols-2 gap-3">
-          {["Design quality", "Speed", "Analytics", "Sharing"].map((item) => (
-            <button
-              className="rounded-lg border border-white/12 bg-white/[0.07] px-3 py-3 text-left text-sm text-emerald-50 transition hover:border-emerald-300/50 hover:bg-emerald-300/10"
-              key={item}
-              type="button"
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-        <Button className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200">
-          Continue
-          <ChevronRight className="size-4" />
-        </Button>
-      </div>
-    </GlassPanel>
-  );
-}
+// export function FormPreviewCard() {
+//   return (
+//     <GlassPanel className="floating-card w-full max-w-md p-5">
+//       <div className="mb-5 flex items-center justify-between">
+//         <div>
+//           <p className="text-xs uppercase tracking-[0.2em] text-emerald-200/70">Live Preview</p>
+//           <h3 className="mt-1 text-xl font-semibold text-white">Forest launch survey</h3>
+//         </div>
+//         <span className="rounded-full border border-emerald-300/25 bg-emerald-300/12 px-3 py-1 text-xs text-emerald-100">
+//           72%
+//         </span>
+//       </div>
+//       <div className="space-y-4">
+//         <label className="block text-sm font-medium text-emerald-50">What should feel easier in your workflow?</label>
+//         <textarea
+//           className="min-h-28 w-full resize-none rounded-lg border border-white/14 bg-black/28 px-4 py-3 text-base text-white outline-none transition placeholder:text-emerald-50/42 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-300/18"
+//           placeholder="Share the moment that slows your team down..."
+//         />
+//         <div className="grid grid-cols-2 gap-3">
+//           {["Design quality", "Speed", "Analytics", "Sharing"].map((item) => (
+//             <button
+//               className="rounded-lg border border-white/12 bg-white/[0.07] px-3 py-3 text-left text-sm text-emerald-50 transition hover:border-emerald-300/50 hover:bg-emerald-300/10"
+//               key={item}
+//               type="button"
+//             >
+//               {item}
+//             </button>
+//           ))}
+//         </div>
+//         <Button className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200">
+//           Continue
+//           <ChevronRight className="size-4" />
+//         </Button>
+//       </div>
+//     </GlassPanel>
+//   );
+// }
 
 export function BuilderMockup() {
   const builderFields = [
@@ -513,10 +513,26 @@ export function VideoFallbackHero() {
       <div className="forest-scene absolute inset-0" />
       <div className="fog-layer absolute inset-0" />
       <div className="particle-field absolute inset-0" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,8,6,0.92),rgba(7,20,13,0.55)_52%,rgba(3,8,6,0.85)),linear-gradient(180deg,rgba(3,8,6,0.12),#06120d_92%)]" />
+
+      <div
+        className="
+          absolute inset-0
+          bg-[linear-gradient(90deg,rgba(238,242,240,0.82),rgba(232,237,234,0.58)_52%,rgba(238,242,240,0.76)),linear-gradient(180deg,rgba(238,242,240,0.08),#e7ece9_92%)]
+          dark:bg-[linear-gradient(90deg,rgba(3,8,6,0.92),rgba(7,20,13,0.55)_52%,rgba(3,8,6,0.85)),linear-gradient(180deg,rgba(3,8,6,0.12),#06120d_92%)]
+        "
+      />
+
       <div className="light-sweep absolute inset-0" />
-      <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#06120d] to-transparent" />
-      <Play className="absolute bottom-0 right-0 text-emerald-100/12" />
+
+      <div
+        className="
+          absolute bottom-0 left-0 right-0 h-36
+          bg-gradient-to-t from-[#e7ece9] to-transparent
+          dark:from-[#06120d]
+        "
+      />
+
+      <Play className="absolute bottom-0 right-0 text-emerald-900/10 dark:text-emerald-100/12" />
     </div>
   );
 }

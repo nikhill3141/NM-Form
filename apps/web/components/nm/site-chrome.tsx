@@ -142,27 +142,12 @@ export function Footer() {
 
 export function PageShell({
   children,
-  eyebrow,
-  title,
-  description,
 }: {
   children: ReactNode;
-  eyebrow: string;
-  title: string;
-  description: string;
 }) {
   return (
-    <main className="nm-app min-h-screen">
+    <main className="nm-app min-h-screen mt-8">
       <SiteNav />
-      <section className="relative overflow-hidden px-6 pb-12 pt-36">
-        <div className="forest-scene absolute inset-0 opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(236,253,245,0.38),#f8fafc_82%)] dark:bg-[linear-gradient(180deg,rgba(6,18,13,0.35),#06120d_82%)]" />
-        <div className="relative mx-auto max-w-7xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.26em] text-emerald-700/80 dark:text-emerald-200/80">{eyebrow}</p>
-          <h1 className="max-w-4xl text-4xl font-semibold leading-tight text-emerald-950 md:text-6xl dark:text-white">{title}</h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-emerald-900/72 md:text-lg dark:text-emerald-50/72">{description}</p>
-        </div>
-      </section>
       {children}
       <Footer />
     </main>

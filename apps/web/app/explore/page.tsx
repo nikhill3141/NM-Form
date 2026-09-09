@@ -73,80 +73,8 @@ function ExploreContent() {
 
   return (
     <PageShell
-      description="Step into public forms that feel like tiny experiences, then fill them or remix a polished template into your own."
-      eyebrow="Explore"
-      title="A gallery of live forms you can actually feel."
-    >
-      <section className="px-6 py-14">
-        <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-          <GlassPanel className="relative overflow-hidden p-7">
-            <div className="forest-scene absolute inset-0 opacity-35" />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.92),rgba(236,253,245,0.74))] dark:bg-[linear-gradient(90deg,rgba(6,18,13,0.92),rgba(6,18,13,0.58))]" />
-            <div className="relative">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700/75 dark:text-emerald-200/75">
-                Public discovery
-              </p>
-              <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-emerald-950 md:text-5xl dark:text-white">
-                Fill a real community form or turn a template into your next launch.
-              </h2>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-emerald-900/70 dark:text-emerald-50/70">
-                Each card previews the form mood, creator, response activity, and the kind of questions respondents will see.
-              </p>
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                {[
-                  ["Live public forms", publicForms.length],
-                  ["Starter templates", templates.length],
-                  ["Total responses", publicForms.reduce((sum, form) => sum + form.responseCount, 0)],
-                ].map(([label, value]) => (
-                  <div className="rounded-lg border border-emerald-900/10 bg-white/72 p-4 dark:border-white/10 dark:bg-white/[0.08]" key={label}>
-                    <p className="text-2xl font-semibold text-emerald-950 dark:text-white">{value}</p>
-                    <p className="mt-1 text-xs text-emerald-900/58 dark:text-emerald-50/58">{label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </GlassPanel>
-
-          <GlassPanel className="overflow-hidden p-5">
-            <div className="rounded-xl border border-emerald-900/10 bg-[#07140d] p-5 text-white shadow-2xl shadow-emerald-950/20">
-              <div className="forest-scene absolute inset-0 hidden" />
-              <div className="mb-5 flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-200/70">Form preview</p>
-                  <h3 className="mt-1 text-2xl font-semibold">Community feedback</h3>
-                </div>
-                <span className="rounded-full border border-emerald-300/25 bg-emerald-300/12 px-3 py-1 text-xs text-emerald-100">
-                  3 questions
-                </span>
-              </div>
-              <div className="space-y-3">
-                <div className="rounded-lg border border-white/12 bg-white/[0.08] p-4">
-                  <p className="mb-3 text-sm font-medium">Which part should we improve first?</p>
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {["Design", "Speed", "Sharing", "Analytics"].map((option, index) => (
-                      <div
-                        className={`rounded-lg border px-3 py-2 text-sm ${index === 1 ? "border-emerald-300/60 bg-emerald-300/16" : "border-white/10 bg-black/16"}`}
-                        key={option}
-                      >
-                        {option}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                  <div className="h-full w-[64%] rounded-full bg-emerald-300" />
-                </div>
-                <Button className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200">
-                  Continue form
-                  <ArrowRight className="size-4" />
-                </Button>
-              </div>
-            </div>
-          </GlassPanel>
-        </div>
-      </section>
-
-      <section className="px-6 py-10">
+      >
+      <section className="pt-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
