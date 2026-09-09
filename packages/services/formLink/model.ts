@@ -4,6 +4,7 @@ export const createFormLinkInputModel = z.object({
   formId: z.uuid().describe("id of the form to share"),
   expiresAt: z.iso.datetime().optional().describe("optional link expiry time"),
 });
+
 export type CreateFormLinkInputModelType = z.infer<
   typeof createFormLinkInputModel
 >;

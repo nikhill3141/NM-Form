@@ -237,7 +237,7 @@ class UserService {
       refreshToken,
     };
   }
-
+//TODO: integrate email otp for the reset the password
   public async requestPasswordReset(payload: RequestPasswordResetInputType) {
     const { email } = await requestPasswordResetInput.parseAsync(payload);
     const user = await this.getUserByEmail({ email });
