@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css"
 import { GlobalProviders } from "~/providers/global";
+import { SmoothScroll } from "~/components/nm/smooth-scroll";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,7 +47,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <GlobalProviders>{children}</GlobalProviders>
+        <GlobalProviders>
+          <SmoothScroll />
+          {children}
+        </GlobalProviders>
       </body>
     </html>
   );

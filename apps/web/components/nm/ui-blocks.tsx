@@ -18,7 +18,21 @@ import {
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
-import { recentForms, themeCards } from "./data";
+import { recentForms,} from "./data";
+
+
+
+const themeBgImages: Record<string, string> = {
+  "Forest Cinematic":
+    "https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?auto=format&fit=crop&w=1200&q=70",
+  "Ocean Flow":
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=70",
+  "Cosmic Dark":
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=70",
+};
+
+
+
 
 export function GlassPanel({
   children,
@@ -251,60 +265,233 @@ export function BuilderMockup() {
   );
 }
 
-export function AnalyticsMockup() {
-  const stages = [
-    { label: "Opened", value: 1240, width: "100%" },
-    { label: "Started", value: 1016, width: "82%" },
-    { label: "Reached rating", value: 846, width: "68%" },
-    { label: "Submitted", value: 731, width: "59%" },
-  ];
+
+import { useId } from "react";
+import { Activity, Gauge, ShieldCheck, Sparkles, TrendingUp, Zap } from "lucide-react";
+
+const weeklyTrend = [32, 41, 38, 52, 61, 58, 74, 69, 81, 88];
+
+const dropoffByStep = [
+  { label: "Start", value: 100 },
+  { label: "Q1", value: 96 },
+  { label: "Q2", value: 91 },
+  { label: "Q3", value: 84 },
+  { label: "Q4", value: 62 },
+  { label: "Submit", value: 58 },
+];
+
+const stats = [
+  { label: "Completion rate", value: "81%", delta: "+7% this week", icon: Gauge },
+  { label: "Avg. time to finish", value: "2m 14s", delta: "−18s vs. last theme", icon: Activity },
+  { label: "Response velocity", value: "312/day", delta: "+28% since launch", icon: TrendingUp },
+  { label: "AI confidence", value: "94%", delta: "on drop-off predictions", icon: ShieldCheck },
+];
+
+const aiInsights = [
+  {
+    icon: Sparkles,
+    title: "Question 4 is your biggest drop-off",
+    text: "26% of respondents leave right after this step. Shortening it or splitting it in two usually recovers most of that loss.",
+  },
+  {
+    icon: Zap,
+    title: "Ocean theme finishes faster",
+    text: "Forms using Ocean Flow complete 18% quicker on average than your other themes, with no drop in response quality.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "No unusual submission patterns",
+    text: "Response timing and device mix this week look consistent with your normal audience — nothing flagged.",
+  },
+];
+
+function buildLinePath(values: number[], width: number, height: number, padding: number) {
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const range = max - min || 1;
+  const stepX = (width - padding * 2) / (values.length - 1);
+
+  const points = values.map((v, i) => {
+    const x = padding + i * stepX;
+    const y = padding + (1 - (v - min) / range) * (height - padding * 2);
+    return { x, y };
+  });
+
+  const linePath = points
+    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+    .join(" ");
+
+  const areaPath =
+    `${linePath} L ${points[points.length - 1]!.x.toFixed(1)} ${height - padding} ` +
+    `L ${points[0]!.x.toFixed(1)} ${height - padding} Z`;
+
+  return { linePath, areaPath, points };
+}
+
+export function AIAnalysisShowcase() {
+  const gradientId = useId();
+  const width = 420;
+  const height = 180;
+  const padding = 16;
+
+  const { linePath, areaPath, points } = buildLinePath(weeklyTrend, width, height, padding);
+  const maxDropoff = Math.max(...dropoffByStep.map((d) => d.value));
 
   return (
-    <GlassPanel className="p-5">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">Analytics</p>
-          <h3 className="mt-1 text-2xl font-semibold">Response flow</h3>
-          <p className="mt-2 text-sm text-emerald-900/62 dark:text-emerald-50/62">Completion, drop-off, and question momentum in one calm view.</p>
-        </div>
-        <div className="flex gap-2">
-          {["7D", "30D", "90D"].map((item) => (
-            <button className="rounded-lg border border-emerald-900/10 bg-white/70 px-3 py-2 text-xs text-emerald-900/70 dark:border-white/10 dark:bg-white/[0.06] dark:text-emerald-50/70" key={item} type="button">
-              {item}
-            </button>
+    <section className="px-6 py-24">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading
+          eyebrow="Analytics"
+          title="See exactly where forms win, and where people drop off"
+          description=" Every response feeds a live analysis layer that reads trends, flags problem questions, and
+          tells you what to fix next — in plain language, not raw tables."
+        />
+
+        {/* stat row */}
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {stats.map(({ label, value, delta, icon: Icon }) => (
+            <GlassPanel className="nm-stat-card p-5" key={label}>
+              <Icon className="mb-4 size-5 text-emerald-500 dark:text-emerald-300" />
+              <p className="text-2xl font-semibold text-black dark:text-white">{value}</p>
+              <p className="mt-1 text-sm text-black/60 dark:text-emerald-50/60">{label}</p>
+              <p className="mt-3 text-xs font-medium text-emerald-600 dark:text-emerald-300">
+                {delta}
+              </p>
+            </GlassPanel>
           ))}
+        </div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
+          {/* line chart + bar chart */}
+          <GlassPanel className="p-6 sm:p-8">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-black dark:text-white">
+                  Response volume
+                </h3>
+                <p className="mt-1 text-sm text-black/55 dark:text-emerald-50/55">
+                  Last 10 days, across all published forms
+                </p>
+              </div>
+              <span className="rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700 dark:border-emerald-300/25 dark:text-emerald-200">
+                +28% vs. prior period
+              </span>
+            </div>
+
+            <svg
+              className="nm-chart-line h-auto w-full"
+              preserveAspectRatio="none"
+              role="img"
+              aria-label="Line chart showing response volume trending upward over the last 10 days"
+              viewBox={`0 0 ${width} ${height}`}
+            >
+              <defs>
+                <linearGradient id={`${gradientId}-fill`} x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="currentColor" stopOpacity="0.28" />
+                  <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+
+              <g className="text-emerald-500 dark:text-emerald-300">
+                <path d={areaPath} fill={`url(#${gradientId}-fill)`} stroke="none" />
+                <path
+                  className="nm-chart-line-path"
+                  d={linePath}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                />
+                {points.map((p, i) => (
+                  <circle
+                    className="nm-chart-dot"
+                    cx={p.x}
+                    cy={p.y}
+                    fill="currentColor"
+                    key={i}
+                    r={i === points.length - 1 ? 4 : 2.5}
+                    style={{ animationDelay: `${0.9 + i * 0.05}s` }}
+                  />
+                ))}
+              </g>
+            </svg>
+
+            <div className="mt-8 border-t border-black/5 pt-6 dark:border-white/10">
+              <h4 className="mb-4 text-sm font-semibold text-black dark:text-white">
+                Completion funnel by question
+              </h4>
+              <div className="flex h-32 items-end gap-3 sm:gap-4">
+                {dropoffByStep.map((step, i) => (
+                  <div className="flex flex-1 flex-col items-center gap-2" key={step.label}>
+                    <div className="relative flex h-full w-full items-end">
+                      <div
+                        className="analytics-bar w-full rounded-t-md bg-gradient-to-t from-emerald-500/70 to-emerald-300"
+                        style={{
+                          height: `${(step.value / maxDropoff) * 100}%`,
+                          animationDelay: `${i * 90}ms`,
+                        }}
+                      />
+                    </div>
+                    <span className="text-[11px] text-black/55 dark:text-emerald-50/55">
+                      {step.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </GlassPanel>
+
+          {/* AI insight panel */}
+          <GlassPanel className="flex flex-col p-6 sm:p-8">
+            <div className="mb-6 flex items-center gap-2">
+              <Sparkles className="size-5 text-emerald-500 dark:text-emerald-300" />
+              <h3 className="text-lg font-semibold text-black dark:text-white">
+                AI reads the data for you
+              </h3>
+            </div>
+
+            <div className="flex flex-1 flex-col gap-5">
+              {aiInsights.map(({ icon: Icon, title, text }) => (
+                <div className="flex gap-3" key={title}>
+                  <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:border-emerald-300/20 dark:text-emerald-300">
+                    <Icon className="size-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-black dark:text-white">{title}</p>
+                    <p className="mt-1 text-sm leading-6 text-black/60 dark:text-emerald-50/60">
+                      {text}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-6 border-t border-black/5 pt-4 text-xs text-black/45 dark:border-white/10 dark:text-emerald-50/40">
+              Generated automatically from response patterns — refreshed every 24 hours.
+            </p>
+          </GlassPanel>
         </div>
       </div>
-      <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="flex h-64 items-end gap-3 rounded-xl border border-emerald-900/10 bg-white/70 p-4 dark:border-white/10 dark:bg-black/20">
-          {[42, 64, 58, 78, 52, 88, 73, 96, 82, 91, 76, 100].map((height, index) => (
-            <div className="flex flex-1 items-end" key={`${height}-${index}`}>
-              <span
-                className="analytics-bar block w-full rounded-t-md bg-gradient-to-t from-emerald-500 to-cyan-200"
-                style={{ height: `${height}%`, animationDelay: `${index * 70}ms` }}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="grid gap-3">
-          {stages.map((stage) => (
-            <div className="rounded-lg border border-emerald-900/10 bg-white/70 p-3 dark:border-white/10 dark:bg-white/[0.05]" key={stage.label}>
-              <div className="mb-2 flex items-center justify-between text-sm">
-                <span className="font-medium">{stage.label}</span>
-                <span className="text-emerald-700 dark:text-emerald-200">{stage.value}</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-emerald-950/10 dark:bg-white/10">
-                <div className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-300" style={{ width: stage.width }} />
-              </div>
-            </div>
-          ))}
-          <div className="rounded-lg border border-emerald-500/20 bg-emerald-300/14 p-3">
-            <p className="text-sm font-semibold">Best performing question</p>
-            <p className="mt-1 text-xs leading-5 text-emerald-900/64 dark:text-emerald-50/64">“How would you rate the experience?” converts 91% after the intro.</p>
-          </div>
-        </div>
-      </div>
-    </GlassPanel>
+
+      <style>{`
+        .nm-chart-line-path {
+          stroke-dasharray: 900;
+          stroke-dashoffset: 900;
+          animation: nm-draw-line 1.6s ease-out forwards;
+        }
+        .nm-chart-dot {
+          opacity: 0;
+          animation: nm-dot-in 0.4s ease-out forwards;
+        }
+        @keyframes nm-draw-line {
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes nm-dot-in {
+          to { opacity: 1; }
+        }
+      `}</style>
+    </section>
   );
 }
 
@@ -339,34 +526,98 @@ export function DashboardPreview() {
   );
 }
 
+import type { ComponentType } from "react";
+import { themeCards } from "~/components/nm/data";
+
+function isLightBackground(hex: string) {
+  const clean = hex.replace("#", "");
+  const r = parseInt(clean.slice(0, 2), 16) / 255;
+  const g = parseInt(clean.slice(2, 4), 16) / 255;
+  const b = parseInt(clean.slice(4, 6), 16) / 255;
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminance > 0.6;
+}
+
+
+
 export function ThemeStrip() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
       {themeCards.map((theme) => {
-        const Icon = theme.icon;
-        const isLightCard = theme.name === "Minimal Luxury";
+        const Icon = theme.icon as ComponentType<{ className?: string }>;
+        const isLightCard = isLightBackground(theme.background);
+        const bgImage = themeBgImages[theme.name];
+
         return (
           <div
-            className="theme-card min-h-72 rounded-xl border border-white/12 p-5 shadow-2xl shadow-black/25"
+            className="theme-card group relative min-h-72 overflow-hidden rounded-2xl border border-white/12 p-5 shadow-2xl shadow-black/25"
             key={theme.name}
-            style={{
-              background: `linear-gradient(160deg, ${theme.surface}, ${theme.background})`,
-            }}
+            style={{ "--card-accent": theme.accent } as React.CSSProperties}
           >
+            {/* faded background photo, only for themes that have one */}
+            {bgImage && (
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-[0.22] transition-opacity duration-300 group-hover:opacity-[0.3]"
+                style={{ backgroundImage: `url(${bgImage})`, filter: "saturate(1.05)" }}
+              />
+            )}
+
+            {/* theme color tint, sits above the photo so text stays readable */}
             <div
-              className="mb-8 flex size-12 items-center justify-center rounded-lg border border-white/12"
-              style={{ color: theme.accent, boxShadow: `0 0 30px ${theme.accent}33` }}
-            >
-              <Icon className="size-6" />
-            </div>
-            <h3 className={`text-xl font-semibold ${isLightCard ? "text-zinc-950" : "text-white"}`}>{theme.name}</h3>
-            <p className={`mt-3 text-sm leading-6 ${isLightCard ? "text-zinc-700" : "text-white/68"}`}>{theme.description}</p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {theme.chips.map((chip) => (
-                <span className={`rounded-full border px-3 py-1 text-xs ${isLightCard ? "border-zinc-200 bg-white/70 text-zinc-700" : "border-white/12 bg-white/10 text-white/72"}`} key={chip}>
-                  {chip}
-                </span>
-              ))}
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(160deg, ${theme.surface}, ${theme.background})`,
+                opacity: bgImage ? 0.88 : 1,
+              }}
+            />
+
+            {/* gradient ring, revealed on hover */}
+            <div className="nm-theme-ring pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            {/* soft accent glow from the top */}
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-32 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{
+                background: `radial-gradient(160px circle at 50% 0%, color-mix(in srgb, ${theme.accent} 30%, transparent), transparent 70%)`,
+              }}
+            />
+
+            <div className="relative">
+              <div
+                className="mb-6 flex size-12 items-center justify-center rounded-lg border border-white/12"
+                style={{
+                  color: theme.accent,
+                  boxShadow: `0 0 30px color-mix(in srgb, ${theme.accent} 22%, transparent)`,
+                }}
+              >
+                <Icon className="size-6" />
+              </div>
+
+              <h3
+                className={`text-xl font-semibold ${isLightCard ? "text-zinc-950" : "text-white"}`}
+              >
+                {theme.name}
+              </h3>
+              <p
+                className={`mt-2 text-sm leading-6 ${isLightCard ? "text-zinc-700" : "text-white/68"}`}
+              >
+                {theme.description}
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {theme.chips.map((chip) => (
+                  <span
+                    className={`rounded-full border px-3 py-1 text-xs ${
+                      isLightCard
+                        ? "border-zinc-200 bg-white/70 text-zinc-700"
+                        : "border-white/12 bg-white/10 text-white/72"
+                    }`}
+                    key={chip}
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         );

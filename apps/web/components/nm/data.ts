@@ -19,10 +19,18 @@ import {
   WandSparkles,
   Waves,
   Zap,
+  Feather,
+  Flame,
+  Flower2,
+  Gamepad2,
 } from "lucide-react";
 
 export const navItems = [
-  { label: "Pricing", href: "/pricing" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Explore", href: "/explore" },
+  { label: "Themes", href: "/themes" },
+];
+export const exploreAndThemesNavItems = [
   { label: "Explore", href: "/explore" },
   { label: "Themes", href: "/themes" },
 ];
@@ -53,6 +61,15 @@ export const experienceFeatures = [
 ];
 
 export const themeCards = [
+  {
+    name: "Retro Arcade",
+    description: "Neon-lit scanlines and pixel-perfect nostalgia.",
+    icon: Gamepad2,
+    accent: "#F472B6",
+    background: "#0A0014",
+    surface: "rgba(20, 4, 32, 0.8)",
+    chips: ["Neon grid", "Pixel glow", "High score"],
+  },
   {
     name: "Forest Cinematic",
     description: "Nature inspired immersive form experience.",
@@ -97,6 +114,33 @@ export const themeCards = [
     background: "#05010F",
     surface: "rgba(15, 15, 25, 0.82)",
     chips: ["Grid", "Glow trails", "Cyan focus"],
+  },
+  {
+    name: "Sakura Dawn",
+    description: "Soft blossom light with a gentle, editorial calm.",
+    icon: Flower2,
+    accent: "#FB7185",
+    background: "#FFF1F5",
+    surface: "rgba(255, 255, 255, 0.7)",
+    chips: ["Soft blossoms", "Morning light", "Gentle motion"],
+  },
+  {
+    name: "Shonen Rush",
+    description: "High-energy action framing with bold impact and speed.",
+    icon: Flame,
+    accent: "#FB923C",
+    background: "#1A0800",
+    surface: "rgba(40, 14, 4, 0.78)",
+    chips: ["Speed lines", "Impact frames", "Power surge"],
+  },
+  {
+    name: "Ink Wash",
+    description: "Traditional brush-and-paper calm with quiet contrast.",
+    icon: Feather,
+    accent: "#18181B",
+    background: "#F5F1E8",
+    surface: "rgba(255, 255, 255, 0.6)",
+    chips: ["Brush texture", "Negative space", "Calm contrast"],
   },
 ];
 
