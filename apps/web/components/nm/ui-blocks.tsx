@@ -20,6 +20,21 @@ import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { recentForms,} from "./data";
 
+import { useId } from "react";
+import { Activity, Gauge, ShieldCheck, Sparkles, TrendingUp, Zap } from "lucide-react";
+import type { ComponentType } from "react";
+import { themeCards } from "~/components/nm/data";
+
+function isLightBackground(hex: string) {
+  const clean = hex.replace("#", "");
+  const r = parseInt(clean.slice(0, 2), 16) / 255;
+  const g = parseInt(clean.slice(2, 4), 16) / 255;
+  const b = parseInt(clean.slice(4, 6), 16) / 255;
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminance > 0.6;
+}
+
+const weeklyTrend = [32, 41, 38, 52, 61, 58, 74, 69, 81, 88];
 
 
 const themeBgImages: Record<string, string> = {
@@ -30,8 +45,6 @@ const themeBgImages: Record<string, string> = {
   "Cosmic Dark":
     "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=70",
 };
-
-
 
 
 export function GlassPanel({
@@ -266,10 +279,6 @@ export function BuilderMockup() {
 }
 
 
-import { useId } from "react";
-import { Activity, Gauge, ShieldCheck, Sparkles, TrendingUp, Zap } from "lucide-react";
-
-const weeklyTrend = [32, 41, 38, 52, 61, 58, 74, 69, 81, 88];
 
 const dropoffByStep = [
   { label: "Start", value: 100 },
@@ -526,17 +535,7 @@ export function DashboardPreview() {
   );
 }
 
-import type { ComponentType } from "react";
-import { themeCards } from "~/components/nm/data";
 
-function isLightBackground(hex: string) {
-  const clean = hex.replace("#", "");
-  const r = parseInt(clean.slice(0, 2), 16) / 255;
-  const g = parseInt(clean.slice(2, 4), 16) / 255;
-  const b = parseInt(clean.slice(4, 6), 16) / 255;
-  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  return luminance > 0.6;
-}
 
 
 
@@ -730,20 +729,14 @@ export function VideoFallbackHero() {
       <div
         className="
           absolute inset-0
-          bg-[linear-gradient(90deg,rgba(238,242,240,0.82),rgba(232,237,234,0.58)_52%,rgba(238,242,240,0.76)),linear-gradient(180deg,rgba(238,242,240,0.08),#e7ece9_92%)]
-          dark:bg-[linear-gradient(90deg,rgba(3,8,6,0.92),rgba(7,20,13,0.55)_52%,rgba(3,8,6,0.85)),linear-gradient(180deg,rgba(3,8,6,0.12),#06120d_92%)]
+          bg-[linear-gradient(30deg,rgba(238,242,240,0.55),rgba(232,237,234,0.58)_52%,rgba(238,242,240,0.76)),linear-gradient(180deg,rgba(238,242,240,0.08),#e7ece9_92%)]
+          dark:bg-[linear-gradient(30deg,rgba(3,8,6,0.92),rgba(7,20,13,0.55)_52%,rgba(3,8,6,0.85)),linear-gradient(180deg,rgba(3,8,6,0.12),#06120d_92%)]
         "
       />
 
       <div className="light-sweep absolute inset-0" />
 
-      <div
-        className="
-          absolute bottom-0 left-0 right-0 h-36
-          bg-gradient-to-t from-[#badcc7] to-transparent
-          dark:from-[#06120d]
-        "
-      />
+
     </div>
   );
 }

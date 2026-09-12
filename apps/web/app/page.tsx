@@ -70,7 +70,7 @@ function TestimonialsMarquee() {
 
   return (
     <section className="relative overflow-hidden py-20">
-      <div className="nm-hero-fade-bottom pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-56" />
+      <div className="nm-hero-fade-bottom pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-40" />
       <div className="mx-auto mb-10 max-w-7xl px-6">
         <SectionHeading
           description="A few words from teams who trust us and enjoy the results after using premium themes "
@@ -152,7 +152,6 @@ export default function Home() {
       {/* hero */}
       <section className="relative min-h-screen overflow-hidden px-6 pb-20 pt-44 md:pt-48">
         <VideoFallbackHero />
-        <div className="nm-hero-fade-top pointer-events-none absolute inset-x-0 top-0 z-[1] h-40" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.30fr]">
           <div>
             <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] text-black dark:text-white md:text-7xl">
