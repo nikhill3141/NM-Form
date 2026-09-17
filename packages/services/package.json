@@ -15,8 +15,10 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.74",
     "@repo/database": "workspace:*",
     "@repo/logger": "workspace:*",
+    "ai": "^7.0.105",
     "drizzle-orm": "^0.45.1",
     "google-auth-library": "^10.5.0",
     "jsonwebtoken": "^9.0.3",

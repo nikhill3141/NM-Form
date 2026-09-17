@@ -26,6 +26,15 @@ import {
 import { formThemes, getFormTheme, type FormThemeValue } from "./themes";
 import { GlassPanel } from "./ui-blocks";
 
+// Add these imports to FunctionalBuilder.tsx
+
+import {
+  AIFormField,
+  AIGenerationWrapper,
+  type AIFormProposal,
+} from "./ai/AIGenerationWrapper";
+import { Sparkles } from "lucide-react";
+
 type LocalField = BuilderDraftField;
 
 const previewUrl = "/form/forest-feedback?previewDraft=1";
@@ -61,7 +70,9 @@ export function FunctionalBuilder() {
   const newFormRequested = searchParams.get("new") === "1";
   const selectedTemplate = templates.find((item) => item.slug === templateSlug);
   const [title, setTitle] = useState("Forest launch survey");
-  const [description, setDescription] = useState("A cinematic feedback journey for a product launch.");
+  const [description, setDescription] = useState(
+    "A cinematic feedback journey for a product launch.",
+  );
   const [theme, setTheme] = useState<FormThemeValue>("forest_cinematic");
   const [visibility, setVisibility] = useState<"public" | "unlisted">("unlisted");
   const [activeFormId, setActiveFormId] = useState("");
@@ -82,6 +93,8 @@ export function FunctionalBuilder() {
   const [draggedFieldId, setDraggedFieldId] = useState("");
   const [dragOverFieldId, setDragOverFieldId] = useState("");
 
+  // Add inside FunctionalBuilder component
+  const [showAIGenerator, setShowAIGenerator] = useState(false);
   const formQuery = trpc.form.getFormById.useQuery(
     { id: editFormId },
     { enabled: Boolean(editFormId), retry: false },
@@ -90,6 +103,7 @@ export function FunctionalBuilder() {
     { formId: editFormId },
     { enabled: Boolean(editFormId), retry: false },
   );
+
   const createForm = trpc.form.createForm.useMutation();
   const editForm = trpc.form.editForm.useMutation();
   const createField = trpc.field.createField.useMutation();
@@ -98,7 +112,13 @@ export function FunctionalBuilder() {
   const createLink = trpc.formLink.createFormLink.useMutation();
 
   const persistedFields = useMemo(() => fields.filter((field) => field.persistedId), [fields]);
-  const isBusy = createForm.isPending || editForm.isPending || createField.isPending || updateFieldMutation.isPending || deleteFieldMutation.isPending || createLink.isPending;
+  const isBusy =
+    createForm.isPending ||
+    editForm.isPending ||
+    createField.isPending ||
+    updateFieldMutation.isPending ||
+    deleteFieldMutation.isPending ||
+    createLink.isPending;
   const selectedTheme = getFormTheme(theme);
 
   useEffect(() => {
@@ -172,7 +192,13 @@ export function FunctionalBuilder() {
   }, [editFormId, loadedTemplateSlug, selectedTemplate]);
 
   useEffect(() => {
-    if (!editFormId || !formQuery.data || ownerFieldsQuery.isLoading || loadedRemoteFormId === editFormId) return;
+    if (
+      !editFormId ||
+      !formQuery.data ||
+      ownerFieldsQuery.isLoading ||
+      loadedRemoteFormId === editFormId
+    )
+      return;
 
     setTitle(formQuery.data.title);
     setDescription(formQuery.data.description ?? "");
@@ -199,7 +225,13 @@ export function FunctionalBuilder() {
       })),
     );
     setLoadedRemoteFormId(editFormId);
-  }, [editFormId, formQuery.data, loadedRemoteFormId, ownerFieldsQuery.data, ownerFieldsQuery.isLoading]);
+  }, [
+    editFormId,
+    formQuery.data,
+    loadedRemoteFormId,
+    ownerFieldsQuery.data,
+    ownerFieldsQuery.isLoading,
+  ]);
 
   useEffect(() => {
     if (!draftLoaded || editFormId || selectedTemplate) return;
@@ -218,7 +250,23 @@ export function FunctionalBuilder() {
       formPassword: "",
       fields,
     });
-  }, [activeFormId, activeSlug, allowAnonymous, description, draftLoaded, editFormId, expiresAt, fields, formPassword, passwordEnabled, selectedTemplate, shareUrl, theme, title, visibility]);
+  }, [
+    activeFormId,
+    activeSlug,
+    allowAnonymous,
+    description,
+    draftLoaded,
+    editFormId,
+    expiresAt,
+    fields,
+    formPassword,
+    passwordEnabled,
+    selectedTemplate,
+    shareUrl,
+    theme,
+    title,
+    visibility,
+  ]);
 
   function buildShareUrl(slug: string) {
     if (typeof window === "undefined") return `/form/${slug}`;
@@ -247,7 +295,7 @@ export function FunctionalBuilder() {
 
   function translateVisibilityRule(
     rule: FieldVisibilityRule | undefined,
-    idByLocalId: Map<string, string>
+    idByLocalId: Map<string, string>,
   ) {
     if (!rule?.showWhen) return undefined;
     const fieldId = idByLocalId.get(rule.showWhen.fieldId) ?? rule.showWhen.fieldId;
@@ -266,7 +314,9 @@ export function FunctionalBuilder() {
     const existingPasswordProtected = Boolean(formQuery.data?.isPasswordProtected);
 
     if (passwordEnabled && !existingPasswordProtected && nextPassword.length < 4) {
-      setStatusMessage("Set a password with at least 4 characters before creating a protected form.");
+      setStatusMessage(
+        "Set a password with at least 4 characters before creating a protected form.",
+      );
       return;
     }
 
@@ -324,7 +374,9 @@ export function FunctionalBuilder() {
       }
 
       for (const [order, field] of nextFields.entries()) {
-        const placeholder = fieldBlocks.find((block) => block.type === field.type)?.placeholder || "Type your answer...";
+        const placeholder =
+          fieldBlocks.find((block) => block.type === field.type)?.placeholder ||
+          "Type your answer...";
         const options = isOptionField(field.type) ? getFieldOptions(field) : undefined;
         const validationRules = translateVisibilityRule(field.validationRules, idByLocalId);
 
@@ -381,17 +433,28 @@ export function FunctionalBuilder() {
 
       await utils.form.getAllFormsByUserId.invalidate();
       await utils.explore.explorePublicForms.invalidate();
-      toast.success(publish ? "Published. The forest path is open." : "Draft saved. Your canopy is still intact.", {
-        className: "nm-toast",
-        description: publish
-          ? visibility === "public"
-            ? "Your public form is listed in Explore."
-            : "Your share link is ready below."
-          : "Preview keeps this draft even when you come back.",
-      });
-      setStatusMessage(publish ? "Published through tRPC. Your share link is ready below." : "Draft synced through tRPC.");
+      toast.success(
+        publish
+          ? "Published. The forest path is open."
+          : "Draft saved. Your canopy is still intact.",
+        {
+          className: "nm-toast",
+          description: publish
+            ? visibility === "public"
+              ? "Your public form is listed in Explore."
+              : "Your share link is ready below."
+            : "Preview keeps this draft even when you come back.",
+        },
+      );
+      setStatusMessage(
+        publish
+          ? "Published through tRPC. Your share link is ready below."
+          : "Draft synced through tRPC.",
+      );
       if (publish) {
-        router.push(visibility === "public" ? `/explore?formId=${formId}` : `/dashboard?formId=${formId}`);
+        router.push(
+          visibility === "public" ? `/explore?formId=${formId}` : `/dashboard?formId=${formId}`,
+        );
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Could not sync with backend.";
@@ -414,7 +477,9 @@ export function FunctionalBuilder() {
       });
       await utils.form.getAllFormsByUserId.invalidate();
       await utils.explore.explorePublicForms.invalidate();
-      setStatusMessage("Form unpublished. Existing links now show as unavailable until you publish again.");
+      setStatusMessage(
+        "Form unpublished. Existing links now show as unavailable until you publish again.",
+      );
       toast.success("Form unpublished.", {
         className: "nm-toast",
         description: "You can keep editing and publish it again when ready.",
@@ -445,8 +510,13 @@ export function FunctionalBuilder() {
     setNewFieldRequired(false);
   }
 
-  function updateField(id: string, patch: Partial<Pick<LocalField, "label" | "required" | "options" | "validationRules">>) {
-    setFields((current) => current.map((field) => (field.id === id ? { ...field, ...patch } : field)));
+  function updateField(
+    id: string,
+    patch: Partial<Pick<LocalField, "label" | "required" | "options" | "validationRules">>,
+  ) {
+    setFields((current) =>
+      current.map((field) => (field.id === id ? { ...field, ...patch } : field)),
+    );
   }
 
   function moveField(sourceId: string, targetId: string) {
@@ -485,7 +555,13 @@ export function FunctionalBuilder() {
 
   function renderFieldPreview(field: LocalField) {
     if (field.type === "long_text") {
-      return <textarea className="nm-input min-h-24" disabled placeholder="Disabled in builder preview" />;
+      return (
+        <textarea
+          className="nm-input min-h-24"
+          disabled
+          placeholder="Disabled in builder preview"
+        />
+      );
     }
 
     if (isOptionField(field.type)) {
@@ -510,10 +586,17 @@ export function FunctionalBuilder() {
         <div className="space-y-3">
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
-              <Star className="size-6 fill-emerald-300 text-emerald-500 dark:text-emerald-200" key={star} />
+              <Star
+                className="size-6 fill-emerald-300 text-emerald-500 dark:text-emerald-200"
+                key={star}
+              />
             ))}
           </div>
-          <textarea className="nm-input min-h-20" disabled placeholder="Disabled in builder preview" />
+          <textarea
+            className="nm-input min-h-20"
+            disabled
+            placeholder="Disabled in builder preview"
+          />
         </div>
       );
     }
@@ -522,21 +605,58 @@ export function FunctionalBuilder() {
       <input
         className="nm-input"
         disabled
-        placeholder={fieldBlocks.find((block) => block.type === field.type)?.placeholder || "Type your answer..."}
+        placeholder={
+          fieldBlocks.find((block) => block.type === field.type)?.placeholder ||
+          "Type your answer..."
+        }
         type={getInputTypeForFieldType(field.type)}
       />
     );
   }
+
+  // Add this handler inside FunctionalBuilder
+  const handleApplyAIProposal = (proposal: AIFormProposal, mode: "create" | "add") => {
+    const generatedFields = proposal.fields.map((field, index) => ({
+      id: `ai-${Date.now()}-${index}`,
+      label: field.label,
+      description: field.description,
+      type: field.type as FieldType,
+      required: field.required,
+      placeholder: field.placeholder,
+      options: field.options ?? [],
+      validationRules: undefined,
+    }));
+
+    if (mode === "create") {
+      setTitle(proposal.title);
+      setDescription(proposal.description);
+      setFields(generatedFields);
+      return;
+    }
+
+    setFields((currentFields) => [
+      ...currentFields,
+      ...generatedFields.map((field, index) => ({
+        ...field,
+        id: `ai-${Date.now()}-${index}`,
+      })),
+    ]);
+  };
 
   return (
     <div className="grid gap-6">
       <GlassPanel className="overflow-hidden">
         <div className="grid min-h-[620px] lg:grid-cols-[240px_minmax(0,1fr)_300px]">
           <aside className="border-b border-emerald-900/10 p-4 dark:border-white/10 lg:border-b-0 lg:border-r">
-            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">Question blocks</p>
+            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">
+              Question blocks
+            </p>
             <div className="mb-4 space-y-3 rounded-lg border border-emerald-900/10 bg-emerald-50/70 p-3 dark:border-white/10 dark:bg-white/[0.04]">
               <div>
-                <label className="mb-2 block text-xs text-emerald-900/80 dark:text-emerald-50/80" htmlFor="new-field-label">
+                <label
+                  className="mb-2 block text-xs text-emerald-900/80 dark:text-emerald-50/80"
+                  htmlFor="new-field-label"
+                >
                   Question label
                 </label>
                 <input
@@ -575,8 +695,12 @@ export function FunctionalBuilder() {
           <section className="bg-emerald-50/72 p-4 dark:bg-black/18 md:p-7">
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">Live canvas</p>
-                <h2 className="mt-1 text-2xl font-semibold text-emerald-950 dark:text-white">{title}</h2>
+                <p className="text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">
+                  Live canvas
+                </p>
+                <h2 className="mt-1 text-2xl font-semibold text-emerald-950 dark:text-white">
+                  {title}
+                </h2>
               </div>
               <div className="flex gap-2">
                 <Button className="nm-button-glass" asChild variant="outline">
@@ -585,22 +709,46 @@ export function FunctionalBuilder() {
                     Dashboard
                   </Link>
                 </Button>
-                <Button className="nm-button-glass" onClick={() => setPreviewMode(previewMode === "desktop" ? "mobile" : "desktop")} variant="outline">
+                <Button
+                  className="nm-button-glass"
+                  onClick={() => setPreviewMode(previewMode === "desktop" ? "mobile" : "desktop")}
+                  variant="outline"
+                >
                   <Smartphone className="size-4" />
                   {previewMode}
                 </Button>
-                <Button className="bg-emerald-300 text-emerald-950 hover:bg-emerald-200" disabled={isBusy} onClick={() => syncForm()}>
-                  {isBusy ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
+                <Button
+                  className="bg-emerald-300 text-emerald-950 hover:bg-emerald-200"
+                  disabled={isBusy}
+                  onClick={() => syncForm()}
+                >
+                  {isBusy ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Save className="size-4" />
+                  )}
                   Save draft
                 </Button>
+                <button
+                  type="button"
+                  onClick={() => setShowAIGenerator(true)}
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm font-medium transition hover:bg-muted"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  <span className="hidden sm:inline">Generate with AI</span>
+                </button>
               </div>
             </div>
 
             <div className={previewMode === "mobile" ? "mx-auto max-w-sm" : "mx-auto max-w-2xl"}>
               <div className="rounded-xl border border-emerald-900/10 bg-white/84 p-5 shadow-xl shadow-emerald-950/10 dark:border-white/12 dark:bg-[#0c1f16]/82 dark:shadow-black/20">
-                <p className="mb-2 text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">{selectedTheme.label}</p>
+                <p className="mb-2 text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">
+                  {selectedTheme.label}
+                </p>
                 <h3 className="text-3xl font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-emerald-900/64 dark:text-emerald-50/64">{description}</p>
+                <p className="mt-3 text-sm leading-6 text-emerald-900/64 dark:text-emerald-50/64">
+                  {description}
+                </p>
                 {fields.length > 1 && (
                   <div className="mt-5 rounded-lg border border-emerald-900/10 bg-emerald-50/70 p-3 text-xs text-emerald-900/62 dark:border-white/10 dark:bg-white/[0.05] dark:text-emerald-50/62">
                     Drag the handle on any field to change question order.
@@ -647,7 +795,9 @@ export function FunctionalBuilder() {
                         <div className="min-w-0 flex-1 space-y-2">
                           <input
                             className="nm-input text-sm font-medium"
-                            onChange={(event) => updateField(field.id, { label: event.target.value })}
+                            onChange={(event) =>
+                              updateField(field.id, { label: event.target.value })
+                            }
                             placeholder="Question label"
                             value={field.label}
                           />
@@ -655,7 +805,9 @@ export function FunctionalBuilder() {
                             <input
                               checked={field.required}
                               className="size-3.5 rounded border-white/20 accent-emerald-400"
-                              onChange={(event) => updateField(field.id, { required: event.target.checked })}
+                              onChange={(event) =>
+                                updateField(field.id, { required: event.target.checked })
+                              }
                               type="checkbox"
                             />
                             Required
@@ -703,7 +855,9 @@ export function FunctionalBuilder() {
                                 }
 
                                 const sourceField = fields.find((item) => item.id === value);
-                                const firstOption = sourceField ? getFieldOptions(sourceField)?.[0] : undefined;
+                                const firstOption = sourceField
+                                  ? getFieldOptions(sourceField)?.[0]
+                                  : undefined;
                                 updateField(field.id, {
                                   validationRules: firstOption
                                     ? { showWhen: { fieldId: value, equals: firstOption } }
@@ -742,7 +896,14 @@ export function FunctionalBuilder() {
                                   <SelectValue placeholder="Choose answer" />
                                 </SelectTrigger>
                                 <SelectContent className="border-emerald-900/10 bg-white text-emerald-950 dark:border-white/10 dark:bg-[#07140d] dark:text-emerald-50">
-                                  {(getFieldOptions(fields.find((item) => item.id === field.validationRules?.showWhen?.fieldId) ?? field) ?? []).map((option) => (
+                                  {(
+                                    getFieldOptions(
+                                      fields.find(
+                                        (item) =>
+                                          item.id === field.validationRules?.showWhen?.fieldId,
+                                      ) ?? field,
+                                    ) ?? []
+                                  ).map((option) => (
                                     <SelectItem key={option} value={option}>
                                       Answer is: {option}
                                     </SelectItem>
@@ -752,7 +913,8 @@ export function FunctionalBuilder() {
                             )}
                           </div>
                           <p className="mt-2 text-xs leading-5 text-emerald-900/56 dark:text-emerald-50/52">
-                            Show this question only when a previous choice matches the selected answer.
+                            Show this question only when a previous choice matches the selected
+                            answer.
                           </p>
                         </div>
                       )}
@@ -765,18 +927,34 @@ export function FunctionalBuilder() {
           </section>
 
           <aside className="border-t border-emerald-900/10 p-4 dark:border-white/10 lg:border-l lg:border-t-0">
-            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">Form properties</p>
+            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-emerald-700/70 dark:text-emerald-200/65">
+              Form properties
+            </p>
             <div className="space-y-4">
               <div>
-                <label className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50">Title</label>
-                <input className="nm-input" onChange={(event) => setTitle(event.target.value)} value={title} />
+                <label className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50">
+                  Title
+                </label>
+                <input
+                  className="nm-input"
+                  onChange={(event) => setTitle(event.target.value)}
+                  value={title}
+                />
               </div>
               <div>
-                <label className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50">Description</label>
-                <textarea className="nm-input min-h-24" onChange={(event) => setDescription(event.target.value)} value={description} />
+                <label className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50">
+                  Description
+                </label>
+                <textarea
+                  className="nm-input min-h-24"
+                  onChange={(event) => setDescription(event.target.value)}
+                  value={description}
+                />
               </div>
               <div>
-                <label className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50">Theme</label>
+                <label className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50">
+                  Theme
+                </label>
                 <Select onValueChange={(value) => setTheme(value as FormThemeValue)} value={theme}>
                   <SelectTrigger className="nm-input h-12 w-full bg-white/78 px-3 text-left dark:bg-black/28">
                     <SelectValue placeholder="Choose a theme" />
@@ -825,7 +1003,11 @@ export function FunctionalBuilder() {
                       className="nm-input"
                       minLength={4}
                       onChange={(event) => setFormPassword(event.target.value)}
-                      placeholder={formQuery.data?.isPasswordProtected ? "Leave blank to keep current password" : "Set form password"}
+                      placeholder={
+                        formQuery.data?.isPasswordProtected
+                          ? "Leave blank to keep current password"
+                          : "Set form password"
+                      }
                       type="password"
                       value={formPassword}
                     />
@@ -836,7 +1018,10 @@ export function FunctionalBuilder() {
                 )}
               </div>
               <div>
-                <label className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50" htmlFor="form-expiry">
+                <label
+                  className="mb-2 block text-sm text-emerald-950 dark:text-emerald-50"
+                  htmlFor="form-expiry"
+                >
                   Form expiry
                 </label>
                 <input
@@ -867,12 +1052,25 @@ export function FunctionalBuilder() {
                   </button>
                 ))}
               </div>
-              <Button className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200" disabled={isBusy} onClick={() => syncForm({ publish: true })}>
+              <Button
+                className="w-full bg-emerald-300 text-emerald-950 hover:bg-emerald-200"
+                disabled={isBusy}
+                onClick={() => syncForm({ publish: true })}
+              >
                 {isBusy ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
-                {formQuery.data?.isPublished ? "Update published form" : visibility === "public" ? "Publish and view Explore" : "Publish and view dashboard"}
+                {formQuery.data?.isPublished
+                  ? "Update published form"
+                  : visibility === "public"
+                    ? "Publish and view Explore"
+                    : "Publish and view dashboard"}
               </Button>
               {formQuery.data?.isPublished && (
-                <Button className="nm-button-glass w-full" disabled={isBusy} onClick={unpublishForm} variant="outline">
+                <Button
+                  className="nm-button-glass w-full"
+                  disabled={isBusy}
+                  onClick={unpublishForm}
+                  variant="outline"
+                >
                   <Lock className="size-4" />
                   Unpublish form
                 </Button>
@@ -898,19 +1096,49 @@ export function FunctionalBuilder() {
                     Share link
                   </p>
                   <div className="flex items-center gap-2">
-                    <input className="nm-input h-10 min-h-10 flex-1 text-sm" readOnly value={shareUrl} />
-                    <Button className="nm-button-glass" onClick={copyShareUrl} size="icon" type="button" variant="outline">
+                    <input
+                      className="nm-input h-10 min-h-10 flex-1 text-sm"
+                      readOnly
+                      value={shareUrl}
+                    />
+                    <Button
+                      className="nm-button-glass"
+                      onClick={copyShareUrl}
+                      size="icon"
+                      type="button"
+                      variant="outline"
+                    >
                       <Copy className="size-4" />
                     </Button>
                   </div>
                 </div>
               )}
-              <p className="text-xs leading-5 text-emerald-900/56 dark:text-emerald-50/52">{persistedFields.length} of {fields.length} fields synced to backend.</p>
-              {statusMessage && <p className="rounded-lg border border-emerald-900/10 bg-white/64 p-3 text-sm text-emerald-900/70 dark:border-white/10 dark:bg-white/[0.06] dark:text-emerald-50/70">{statusMessage}</p>}
+              <p className="text-xs leading-5 text-emerald-900/56 dark:text-emerald-50/52">
+                {persistedFields.length} of {fields.length} fields synced to backend.
+              </p>
+              {statusMessage && (
+                <p className="rounded-lg border border-emerald-900/10 bg-white/64 p-3 text-sm text-emerald-900/70 dark:border-white/10 dark:bg-white/[0.06] dark:text-emerald-50/70">
+                  {statusMessage}
+                </p>
+              )}
             </div>
           </aside>
         </div>
       </GlassPanel>
+      <AIGenerationWrapper
+        open={showAIGenerator}
+        onClose={() => setShowAIGenerator(false)}
+        onApply={handleApplyAIProposal}
+        existingFields={fields.map((field) => ({
+          label: field.label,
+          description: field.description,
+          type: field.type as AIFormField["type"],
+          placeholder: field.placeholder,
+          required: field.required,
+          options: field.options,
+        }))}
+        defaultMode={fields.length > 0 ? "add" : "create"}
+      />
     </div>
   );
 }

@@ -73,18 +73,16 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
-
-
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   return res.json({ message: "NM Forms API is up and running..." });
 });
 
-app.get("/health", (req, res) => {
+app.get("/health", (_req, res) => {
   return res.json({ message: "NM Forms API is healthy", healthy: true });
 });
 
 logger.debug(`openapi.json: ${env.BASE_URL}/openapi.json`);
-app.get("/openapi.json", (req, res) => {
+app.get("/openapi.json", (_req, res) => {
   return res.json(openApiDocument);
 });
 

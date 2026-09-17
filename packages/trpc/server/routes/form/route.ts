@@ -17,6 +17,12 @@ import {
   serializeForm,
 } from "./model";
 import { assertRateLimit } from "../../utils/rate-limit";
+import {
+  generateFormProposal,
+  aiFormProposalSchema,
+  generateFormInputModel,
+} from "@repo/services/ai";
+
 
 const TAGS = ["Form"];
 const getPath = generatePath("/form");
@@ -37,12 +43,48 @@ export const formRouter = router({
         key: `form:create:${ctx.user.id}`,
         limit: 12,
         windowMs: 60 * 60 * 1000,
-        message: "You have created many forms in a short time. Please wait before creating another one.",
+        message:
+          "You have created many forms in a short time. Please wait before creating another one.",
       });
       const { createForm } = await formService.createForm(ctx.user.id, input);
       const form = createForm[0];
       if (!form) throw new Error("Failed to create form");
       return serializeForm(form);
+    }),
+
+  generateWithAI: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/generate-with-ai"),
+        tags: TAGS,
+      },
+    })
+    .input(generateFormInputModel)
+    .output(aiFormProposalSchema)
+    .mutation(async ({ input, ctx }) => {
+      await assertRateLimit({
+        key: `form:ai:${ctx.user.id}`,
+        limit: 10,
+        windowMs: 10 * 60 * 1000,
+        message: "You have generated many forms recently. Please wait before trying again.",
+      });
+
+      const model = process.env.AI_MODEL;
+
+      if (!model) {
+        throw new Error("AI_MODEL is not configured.");
+      }
+
+      const proposal = await generateFormProposal({
+        prompt: input.prompt,
+        mode: input.mode,
+        existingFields: input.existingFields,
+        provider: "google",
+        model,
+      });
+
+      return proposal;
     }),
 
   getFormById: protectedProcedure
