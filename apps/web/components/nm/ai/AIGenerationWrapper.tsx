@@ -23,19 +23,21 @@ export type AIFieldType =
   | "yes_no"
   | "url"
   | "time";
+  
+
 
 export interface AIFormField {
   label: string;
-  description?: string;
+  description: string | null;
   type: AIFieldType;
-  placeholder?: string;
+  placeholder: string | null;
   required: boolean;
-  options?: string[];
+  options: string[] ;
 }
 
 export interface AIFormProposal {
   title: string;
-  description: string;
+  description: string | null;
   fields: AIFormField[];
 }
 

@@ -28,7 +28,6 @@ export const selectFieldTypes = [
   "single_select",
   "multi_select",
   "checkbox",
-  "yes_no",
 ] as const;
 
 export const createFieldInputModel = z.object({

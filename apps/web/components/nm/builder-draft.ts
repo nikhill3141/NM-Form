@@ -16,13 +16,13 @@ export interface BuilderDraftField {
   label: string;
   type: FieldType;
   required: boolean;
-  options?: string[];
+  options?: string[] | undefined;
   validationRules?: FieldVisibilityRule;
 }
 
 export interface BuilderDraft {
   title: string;
-  description: string;
+  description: string | null;
   theme: FormThemeValue;
   visibility: "public" | "unlisted";
   activeFormId: string;

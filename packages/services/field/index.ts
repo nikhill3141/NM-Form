@@ -23,7 +23,7 @@ import {
 class FieldService {
   private assertSelectFieldOptions(
     type: z.infer<typeof fieldTypeSchema>,
-    options?: string[]
+    options?: string[] 
   ) {
     if (
       selectFieldTypes.includes(type as (typeof selectFieldTypes)[number]) &&
