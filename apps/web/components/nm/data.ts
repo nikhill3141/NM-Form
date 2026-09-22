@@ -29,6 +29,7 @@ export const navItems = [
   { label: "Pricing", href: "#pricing" },
   { label: "Explore", href: "/explore" },
   { label: "Themes", href: "/themes" },
+  { label: "T&C", href: "/terms" },
 ];
 export const exploreAndThemesNavItems = [
   { label: "Explore", href: "/explore" },

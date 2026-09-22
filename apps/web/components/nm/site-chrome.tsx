@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowRight, Leaf, Menu, PackageIcon, Sparkles, ThermometerSnowflake } from "lucide-react";
+import { ArrowRight, Leaf, Menu, PackageIcon, Sparkles } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Sheet,
@@ -30,12 +30,18 @@ export function SiteNav({ showThemeNotice = false }: { showThemeNotice?: boolean
       >
         <div className="nm-panel mx-auto flex p-2 h-14 max-w-7xl items-center justify-between ">
           <Link className="" href="/">
-            
-              {/* <img src={""} /> */}
-              <img src={"/Forest From Text Logo LightMode.png"} alt="Forest Form" className="h-38 w-auto mt-1 dark:hidden" />
+            {/* <img src={""} /> */}
+            <img
+              src={"/Forest From Text Logo LightMode.png"}
+              alt="Forest Form"
+              className=" h-20 mt-1 scale-230 w-20 ml-9 dark:hidden"
+            />
 
-              <img src={"/Forest_form_text_dark_mode-removebg-preview.png"} alt="Forest Form" className="hidden h-35 mt-2 w-auto dark:block" />
-           
+            <img
+              src={"/Forest_form_text_dark_mode-removebg-preview.png"}
+              alt="Forest Form"
+              className="hidden h-20 mt-2 scale-200 w-20 ml-8 dark:block"
+            />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -193,36 +199,127 @@ export function ExploreAndThemeNav() {
   );
 }
 
+
+
 export function Footer() {
+  const footerSections = [
+    {
+      title: "Product",
+      items: [
+        { label: "Builder", href: "/builder" },
+        { label: "Explore", href: "/explore" },
+        { label: "Themes", href: "/themes" },
+        { label: "Analytics", href: "/analytics" },
+      ],
+    },
+    {
+      title: "Company",
+      items: [
+        { label: "Pricing", href: "/pricing" },
+        { label: "About Us", href: "/about" },
+        { label: "Contact Us", href: "/contact" },
+      ],
+    },
+    {
+      title: "Legal",
+      items: [
+        { label: "Terms & Conditions", href: "/terms" },
+        { label: "Privacy Policy", href: "/privacy" },
+        {
+          label: "Refund & Cancellation",
+          href: "/refund-cancellation",
+        },
+      ],
+    },
+  ];
+
   return (
     <footer className="relative overflow-hidden border-t border-emerald-900/10 bg-emerald-50 px-6 py-16 text-emerald-950 dark:border-white/10 dark:bg-[#030806] dark:text-emerald-50">
       <div className="forest-noise absolute inset-0 opacity-35" />
-      <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+
+      <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+        {/* Brand */}
         <div>
-          <div className="mb-5 flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-lg bg-emerald-300 text-emerald-950">
-              <Sparkles className="size-5" />
-            </span>
-            <span className="text-xl font-semibold">NM Forms</span>
-          </div>
+          <Link className="" href="/">
+            {/* <img src={""} /> */}
+            <img
+              src={"/Forest From Text Logo LightMode.png"}
+              alt="Forest Form"
+              className="scale-200 h-35 mt-2 ml-20 w-auto  dark:hidden"
+            />
+
+            <img
+              src={"/Forest_form_text_dark_mode-removebg-preview.png"}
+              alt="Forest Form"
+              className="hidden scale-200 h-35 mt-2 ml-20 w-auto dark:block"
+            />
+          </Link>
+
           <p className="max-w-md text-sm leading-6 text-emerald-900/68 dark:text-emerald-50/68">
-            Immersive forms, cinematic themes, and analytics built for modern teams that care about the response experience.
+            Immersive forms, cinematic themes, and AI-powered form creation built for modern teams
+            that care about the response experience.
+          </p>
+
+          <p className="mt-5 text-xs text-emerald-900/45 dark:text-emerald-50/40">
+            Build forms that feel like an experience.
           </p>
         </div>
-        {[
-          ["Product", "Builder", "Explore", "Themes", "Analytics"],
-          ["Company", "Pricing", "Customers", "Security"],
-          ["Social", "LinkedIn", "X", "GitHub", "Dribbble"],
-        ].map(([title, ...items]) => (
-          <div key={title}>
-            <p className="mb-4 text-sm font-semibold text-emerald-950 dark:text-white">{title}</p>
+
+        {/* Footer sections */}
+        {footerSections.map((section) => (
+          <div key={section.title}>
+            <p className="mb-4 text-sm font-semibold text-emerald-950 dark:text-white">
+              {section.title}
+            </p>
+
             <div className="grid gap-3 text-sm text-emerald-900/62 dark:text-emerald-50/62">
-              {items.map((item) => (
-                <span key={item}>{item}</span>
+              {section.items.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="w-fit transition-colors hover:text-emerald-700 dark:hover:text-emerald-300"
+                >
+                  {item.label}
+                </Link>
               ))}
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Bottom bar */}
+      <div className="relative mx-auto mt-12 flex max-w-7xl flex-col gap-3 border-t border-emerald-900/10 pt-6 text-xs text-emerald-900/50 sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:text-emerald-50/40">
+        <p>© {new Date().getFullYear()} Forest Forms. All rights reserved.</p>
+
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
+          <Link
+            href="/terms"
+            className="transition-colors hover:text-emerald-700 dark:hover:text-emerald-300"
+          >
+            Terms
+          </Link>
+
+          <Link
+            href="/privacy"
+            className="transition-colors hover:text-emerald-700 dark:hover:text-emerald-300"
+          >
+            Privacy
+          </Link>
+
+          <Link
+            href="/refund-cancellation"
+            className="transition-colors hover:text-emerald-700 dark:hover:text-emerald-300"
+          >
+            Refunds & Cancellation
+          </Link>
+
+          <Link
+            href="/contact"
+            className="transition-colors hover:text-emerald-700 dark:hover:text-emerald-300"
+          >
+            Contact
+          </Link>
+        </div>
       </div>
     </footer>
   );
