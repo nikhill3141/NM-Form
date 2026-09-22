@@ -19,7 +19,7 @@ const openApiDocument = generateOpenApiDocument(serverRouter, {
 
 const normalizeOrigin = (origin: string) => origin.trim().replace(/\/$/, "");
 const allowedOrigins = new Set([
-  "https://nm-form-web.vercel.app",
+  'https://nm-form-web.vercel.app',
   "http://localhost:3001",
   ...(env.FRONTEND_URL?.split(",").map(normalizeOrigin) ?? []),
 ]);
