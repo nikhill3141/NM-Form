@@ -39,3 +39,5 @@ dev-server*.log
 # Misc
 .DS_Store
 *.pem
+
+payment.txt

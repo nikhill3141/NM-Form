@@ -64,6 +64,27 @@
       "when": 1780102800000,
       "tag": "0008_auth_security_hardening",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790333978481,
+      "tag": "0009_classy_lady_mastermind",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790774710961,
+      "tag": "0010_awesome_dark_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790775061322,
+      "tag": "0011_plain_whistler",
+      "breakpoints": true
     }
   ]
 }

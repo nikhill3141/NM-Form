@@ -18,9 +18,6 @@ export const usersTable = pgTable("users", {
   profileImageUrl: text("profile_image_url"),
   salt: varchar("salt",{length:100}),
   refreshToken: varchar("refresh_token",{length:500}),
-  emailVerificationTokenHash: varchar("email_verification_token_hash", {
-    length: 255,
-  }),
   emailVerificationExpiresAt: timestamp("email_verification_expires_at"),
   passwordResetTokenHash: varchar("password_reset_token_hash", {
     length: 255,
