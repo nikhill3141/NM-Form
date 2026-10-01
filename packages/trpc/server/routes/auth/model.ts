@@ -12,7 +12,6 @@ export const createUserWithEmailAndPasswordInputSchema = z.object({
 export const createUserWithEmailAndPasswordOutputSchema = z.object({
   id: uuidSchema.describe("The UUID of the user"),
   verificationToken: z.string().optional().describe("demo verification token"),
-  emailVerificationRequired: z.boolean(),
 });
 
 
@@ -46,20 +45,15 @@ export const getLoggedInUserInfoOutputModel = z.object({
   email: emailSchema.describe("email of the created user"),
   fullName: z.string().describe("fullname of the created user"),
   profileImageUrl: z.string().describe("profile image url of the user").optional().nullable(),
-  emailVerified: z.boolean().nullable().describe("whether the user's email is verified"),
+  
 }) 
 
 export const logoutOutputModel = z.object({
   success: z.boolean(),
 })
 
-export const verifyEmailInputModel = z.object({
-  token: authTokenSchema.describe("email verification token"),
-});
 
-export const verifyEmailOutputModel = z.object({
-  id: uuidSchema.describe("verified user id"),
-});
+
 
 export const requestPasswordResetInputModel = z.object({
   email: normalizedEmailSchema.describe("email of the user"),

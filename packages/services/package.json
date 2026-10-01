@@ -23,6 +23,8 @@
     "google-auth-library": "^10.5.0",
     "jsonwebtoken": "^9.0.3",
     "postgres": "^3.4.9",
+    "razorpay": "^2.9.8",
+    "server-only": "^0.0.1",
     "zod": "^4.3.5"
   }
 }

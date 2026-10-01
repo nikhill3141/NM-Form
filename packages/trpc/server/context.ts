@@ -11,7 +11,6 @@ export interface TRPCContext {
     email: string;
     fullName: string;
     profileImageUrl: string | null;
-    emailVerified: boolean | null;
   }
 }
 

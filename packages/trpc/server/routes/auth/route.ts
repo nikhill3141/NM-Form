@@ -1,5 +1,5 @@
 import { userService } from "../../services";
-import { createUserWithEmailAndPasswordInputSchema, createUserWithEmailAndPasswordOutputSchema, getLoggedInUserInfoInputModel, getLoggedInUserInfoOutputModel, guestLoginOutputModel, logoutOutputModel, refreshTokenVerificationInputModel, refreshTokenVerificationOutputModel, requestPasswordResetInputModel, requestPasswordResetOutputModel, resetPasswordInputModel, resetPasswordOutputModel, signInUserWithEmailAndPasswordInput, signInUserWithEmailAndPasswordOutput, verifyEmailInputModel, verifyEmailOutputModel } from "../auth/model";
+import { createUserWithEmailAndPasswordInputSchema, createUserWithEmailAndPasswordOutputSchema, getLoggedInUserInfoInputModel, getLoggedInUserInfoOutputModel, guestLoginOutputModel, logoutOutputModel, refreshTokenVerificationInputModel, refreshTokenVerificationOutputModel, requestPasswordResetInputModel, requestPasswordResetOutputModel, resetPasswordInputModel, resetPasswordOutputModel, signInUserWithEmailAndPasswordInput, signInUserWithEmailAndPasswordOutput,} from "../auth/model";
 import { protectedProcedure, publicProcedure, router } from "../../trpc";
 import { generatePath } from "../../utils/path-generator";
 import { clearAuthenticationCookie, getRefreshTokenCookie, setAccessTokenCookie, setRefreshTokenCookie } from "../../utils/cookie";
@@ -59,14 +59,13 @@ export const authRouter = router({
       message: "Too many account creation attempts. Please wait before creating another account.",
     });
 
-    const {id, verificationToken, emailVerificationRequired} = await userService.createUserWithEmailAndPassword({
+    const {id, verificationToken} = await userService.createUserWithEmailAndPassword({
       fullName,email,password
     })
 
     return{
       id,
       verificationToken,
-      emailVerificationRequired,
     }
   }),
 
@@ -94,31 +93,7 @@ export const authRouter = router({
       id,
     }
   }),
-  verifyEmail: publicProcedure
-  .meta({
-    openapi:{
-      method:"POST",
-      path:getPath("/verify-email"),
-      tags:TAGS
-    }
-  })
-  .input(verifyEmailInputModel)
-  .output(verifyEmailOutputModel)
-  .mutation(async ({input, ctx})=>{
-    await assertRateLimit({
-      key: `auth:verify-email:${ctx.requestIp ?? "unknown"}`,
-      limit: 10,
-      windowMs: 15 * 60 * 1000,
-      message: "Too many verification attempts. Please wait before trying again.",
-    });
-    const {id, refreshToken, accessToken} = await userService.verifyEmail(input)
-    setAccessTokenCookie(ctx,accessToken)
-    setRefreshTokenCookie(ctx,refreshToken)
 
-    return {
-      id,
-    }
-  }),
 
   requestPasswordReset: publicProcedure
   .meta({
@@ -198,14 +173,13 @@ export const authRouter = router({
   .input(getLoggedInUserInfoInputModel)
   .output(getLoggedInUserInfoOutputModel)
   .query(async ({ctx})=>{
-    const {id,email, fullName, profileImageUrl, emailVerified} = ctx.user
+    const {id,email, fullName, profileImageUrl} = ctx.user
 
     return{
       id,
       email,
       fullName,
       profileImageUrl,
-      emailVerified
     }
 
   }),

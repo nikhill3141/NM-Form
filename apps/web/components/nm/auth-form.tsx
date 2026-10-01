@@ -21,18 +21,17 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [verificationToken, setVerificationToken] = useState("");
   const [resetMode, setResetMode] = useState(false);
   const [resetToken, setResetToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const signup = trpc.auth.createUserWithEmailAndPassword.useMutation({
     onSuccess: (data) => {
-      setVerificationToken(data.verificationToken ?? "");
       toast.success("Account created.", {
         className: authToastClassName,
-        description: "Verify your email to unlock the workspace.",
+        description: "account created successfully do the login.",
       });
+      window.location.href = "/login";
     },
     onError: (error) => {
       toast.error("Could not create account.", {
@@ -76,22 +75,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     },
   });
 
-  const verifyEmail = trpc.auth.verifyEmail.useMutation({
-    onSuccess: async () => {
-      toast.success("Email verified.", {
-        className: authToastClassName,
-        description: "Opening your dashboard...",
-      });
-      await utils.auth.getLogedInUser.invalidate();
-      redirectToDashboard();
-    },
-    onError: (error) => {
-      toast.error("Could not verify email.", {
-        className: authToastClassName,
-        description: error.message,
-      });
-    },
-  });
+
 
   const requestPasswordReset = trpc.auth.requestPasswordReset.useMutation({
     onSuccess: (data) => {
@@ -131,7 +115,6 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     signup.isPending ||
     signin.isPending ||
     guestLogin.isPending ||
-    verifyEmail.isPending ||
     requestPasswordReset.isPending ||
     resetPassword.isPending;
 
@@ -281,20 +264,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
               {isSignup ? "Create account" : "Sign in"}
               <ArrowRight className="size-4" />
             </Button>
-            {verificationToken && (
-              <Button
-                className="w-full border-emerald-300/30 bg-emerald-300/12 text-emerald-50 hover:bg-emerald-300/18"
-                disabled={isPending}
-                onClick={() => {
-                  verifyEmail.mutate({ token: verificationToken });
-                }}
-                type="button"
-                variant="outline"
-              >
-                {verifyEmail.isPending && <Loader2 className="size-4 animate-spin" />}
-                Verify email and continue
-              </Button>
-            )}
+
           </form>
         )}
         {!isSignup && (

@@ -84,7 +84,6 @@ class UserService {
         email:usersTable.email,
         fullName:usersTable.fullName,
         profileImageUrl:usersTable.profileImageUrl,
-        emailVerified: usersTable.emailVerified,
       }
     ).from(usersTable).where(eq(usersTable.id,id))
 
@@ -126,8 +125,7 @@ class UserService {
     }
     const hashedPassword = await hashPassword(password);
     const verificationToken = createSecureToken();
-    const verificationTokenHash = hashToken(verificationToken);
-    const verificationExpiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
+
 
     //insert user in db
     const [user] = await db
@@ -137,9 +135,6 @@ class UserService {
         email,
         password: hashedPassword,
         salt: null,
-        emailVerified: false,
-        emailVerificationTokenHash: verificationTokenHash,
-        emailVerificationExpiresAt: verificationExpiresAt,
       })
       .returning();
 
@@ -176,9 +171,6 @@ class UserService {
       throw new Error("Invalid email or password")
     }
 
-    if (!existingUser.emailVerified) {
-      throw new Error("Please verify your email before signing in.");
-    }
 
     const passwordUpdate = isLegacyPasswordHash(existingUser.password)
       ? { password: await hashPassword(password), salt: null }
@@ -199,44 +191,6 @@ class UserService {
     }
   }
 
-  public async verifyEmail(payload: VerifyEmailInputType) {
-    const { token } = await verifyEmailInput.parseAsync(payload);
-    const tokenHash = hashToken(token);
-
-    const [user] = await db
-      .select()
-      .from(usersTable)
-      .where(
-        and(
-          eq(usersTable.emailVerificationTokenHash, tokenHash),
-          gt(usersTable.emailVerificationExpiresAt, new Date())
-        )
-      )
-      .limit(1);
-
-    if (!user) {
-      throw new Error("Email verification link is invalid or expired.");
-    }
-
-    const { accessToken } = await this.generateAccessToken({ id: user.id });
-    const { refreshToken } = await this.generateRefreshToken({ id: user.id });
-
-    await db
-      .update(usersTable)
-      .set({
-        emailVerified: true,
-        emailVerificationTokenHash: null,
-        emailVerificationExpiresAt: null,
-        refreshToken,
-      })
-      .where(eq(usersTable.id, user.id));
-
-    return {
-      id: user.id,
-      accessToken,
-      refreshToken,
-    };
-  }
 //TODO: integrate email otp for the reset the password
   public async requestPasswordReset(payload: RequestPasswordResetInputType) {
     const { email } = await requestPasswordResetInput.parseAsync(payload);
@@ -289,7 +243,6 @@ class UserService {
         refreshToken: null,
         passwordResetTokenHash: null,
         passwordResetExpiresAt: null,
-        emailVerified: true,
       })
       .where(eq(usersTable.id, user.id));
 
@@ -614,7 +567,6 @@ class UserService {
         .values({
           fullName: "Judges Guest",
           email: this.guestEmail,
-          emailVerified: true,
           profileImageUrl:
             "https://api.dicebear.com/9.x/initials/svg?seed=Judges%20Guest",
         })

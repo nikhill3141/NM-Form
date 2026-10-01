@@ -8,6 +8,7 @@ import { fieldRouter } from "./routes/field/route";
 import { responseRouter } from "./routes/response/route";
 import { answerRouter } from "./routes/answer/route";
 import { exploreRouter } from "./routes/explore/route";
+import { billingRouter } from "./routes/billing/route";
 
 export const serverRouter = router({
   health: healthRouter,
@@ -18,6 +19,7 @@ export const serverRouter = router({
   response: responseRouter,
   answer: answerRouter,
   explore: exploreRouter,
+  billing: billingRouter,
 });
 
 export { createContext } from "./context";
