@@ -31,7 +31,6 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         className: authToastClassName,
         description: "account created successfully do the login.",
       });
-      window.location.href = "/login";
     },
     onError: (error) => {
       toast.error("Could not create account.", {
