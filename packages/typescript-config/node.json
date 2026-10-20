@@ -1,9 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node JS",
+  "display": "Node.js Core Microservice",
   "extends": "./base.json",
   "compilerOptions": {
-    "moduleResolution": "Node",
-    "module": "CommonJS"
+    "module": "node16",
+    "moduleResolution": "node16",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true
   }
 }
